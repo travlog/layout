@@ -18,6 +18,8 @@
         <input type="submit">
       </div>
     </form>
+
+    <button @click="$router.back()">Back</button>
   </div>
 </template>
 
