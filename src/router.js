@@ -38,6 +38,11 @@ export default new Router({
       path: '/new-event',
       name: 'new-event',
       component: () => import(/* webpackChunkName: "about" */ './views/NewEvent.vue')
+    },
+    {
+      path: '/setting',
+      name: 'setting',
+      component: () => import(/* webpackChunkName: "about" */ './views/Setting.vue')
     }
   ]
 })

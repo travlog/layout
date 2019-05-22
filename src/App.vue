@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <div id="sidebar" v-if="open" class="box">
-      <ul>
-        <li>
+      <ul class="sidbar-menu">
+        <li class="sidebar-menu-item">
           <button @click="open = false">CLOSE</button>
         </li>
-        <li>
-          <router-link to="/">Home</router-link>
-        </li>
-        <li>
-          <router-link to="/about">About</router-link>
-        </li>
+        <router-link class="sidebar-menu-item" tag="li" to="/" @click.native="open = false">
+          Home
+        </router-link>
+        <router-link class="sidebar-menu-item" tag="li" to="/about" @click.native="open = false">
+          About
+        </router-link>
       </ul>
     </div>
     <div id="top-nav" class="box">
@@ -25,7 +25,7 @@
         </span>
       </div>
       <div>
-        <button @click="$router.push({ name: 'new-trip' })">NEW</button>
+        <button @click="$router.push({ name: 'setting' })">SETTING</button>
       </div>
     </div>
     <div id="main">
@@ -66,7 +66,19 @@ html, body, #app {
   width: 280px;
   height: 100vh;
   border: 1px solid black;
-  padding: .5rem;
+}
+
+.sidbar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-menu-item {
+  width: 100%;
+  border: 1px solid black;
+  padding: 1rem .5rem;
+  margin-bottom: .5rem;
 }
 
 #top-nav {
