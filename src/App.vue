@@ -8,6 +8,9 @@
         <router-link class="sidebar-menu-item" tag="li" to="/" @click.native="open = false">
           Home
         </router-link>
+        <router-link class="sidebar-menu-item" tag="li" to="/new-trip" @click.native="open = false">
+          New Trip
+        </router-link>
         <router-link class="sidebar-menu-item" tag="li" to="/about" @click.native="open = false">
           About
         </router-link>
@@ -100,7 +103,9 @@ html, body, #app {
   padding: .5rem 1rem;
 }
 
-.form-group input {
+.form-group input[type='text'],
+.form-group input[type='submit'],
+.form-group input[type='date'] {
   width: 100%;
 }
 
