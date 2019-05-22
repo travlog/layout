@@ -28,7 +28,7 @@
 export default {
   name: 'new-trip',
   methods: {
-    onSubmit() {
+    onSubmit () {
       console.log('hello world')
     }
   }

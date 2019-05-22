@@ -35,13 +35,13 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       open: false
     }
   },
   methods: {
-    goToNew() {}
+    goToNew () {}
   }
 }
 </script>

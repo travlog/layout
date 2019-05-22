@@ -24,7 +24,7 @@
 <script>
 export default {
   methods: {
-    onSubmit() {}
+    onSubmit () {}
   }
 }
 </script>
