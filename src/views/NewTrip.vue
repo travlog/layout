@@ -4,15 +4,36 @@
     <form @submit.prevent="onSubmit">
       <div class="form-group">
         <label for="">Name</label>
-        <input type="text">
+        <input type="text" placeholder="지금 정하지 않아도 됩니다.">
       </div>
+
       <div class="form-group">
         <label for="">Start Date</label>
         <input type="date">
       </div>
       <div class="form-group">
+        <label for="">출발하는 나라</label>
+        <input type="text">
+      </div>
+
+      <hr>
+
+      <div class="form-group">
         <label for="">End Date</label>
         <input type="date">
+      </div>
+
+      <div class="form-group">
+        <label for="">돌아오는 나라</label>
+        <input type="text">
+      </div>
+
+      <div class="form-group">
+        <label for="same-country-trip">
+          <input id="same-country-trip" name="" type="checkbox">
+          국내 여행입니다.
+        </label>
+
       </div>
       <div class="form-group">
         <input type="submit">
@@ -35,5 +56,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 </style>
