@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div id="sidebar" v-if="open" class="box">
+      <div class="dimmer" @click="open = false"></div>
       <ul class="sidbar-menu">
         <li class="sidebar-menu-item">
           <button @click="open = false">CLOSE</button>
@@ -91,15 +92,24 @@ html, body, #app {
 }
 
 #sidebar {
-  width: 280px;
+  width: 100vw;
   height: 100vh;
+  display: inline-block;
   border: 1px solid black;
+  z-index: 1000;
+  background: transparent;
+  position: fixed;
 }
 
 .sidbar-menu {
   list-style: none;
   margin: 0;
   padding: 0;
+  position: fixed;
+  width: 280px;
+  z-index: 1000;
+  height: 100vh;
+  background-color: #fff;
 }
 
 .sidebar-menu-item {
@@ -140,4 +150,13 @@ html, body, #app {
   text-align: center;
 }
 
+.dimmer {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 10
+}
 </style>
