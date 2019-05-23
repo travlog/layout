@@ -13,10 +13,10 @@
     </div>
     <div class="trip-body">
       <div class="event-header">
-        <h2>Events</h2>
+        <h2 class="event-title">1일차</h2>
       </div>
       <ul class="event-list">
-        <li class="event" @click="$router.push({ name: 'events-id', params: { id: 1 } })">
+        <li class="event">
           <div class="event-card">
             <div class="event-icon">아이콘</div>
             <div class="event-body">
@@ -61,6 +61,20 @@
 </template>
 
 <script>
+const events = [
+  { id: 1, type: 'flight', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
+  { id: 2, type: 'hotel', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
+  { id: 2, type: 'restaurant', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
+  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' }
+]
+
+console.log(events)
+
 export default {
   data () {
     return {
@@ -111,6 +125,12 @@ export default {
   align-items: center;
 }
 
+.event-title {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  padding-left: .5rem;
+}
+
 .event-list {
   padding: 0;
   margin: 0;
@@ -151,22 +171,24 @@ export default {
 
 .event-button {
   position: fixed;
-  width: 100px;
-  height: 100px;
+  width: 60px;
+  height: 60px;
   border: 1px solid black;
   border-radius: 100%;
   overflow: hidden;
-  bottom: 0;
-  right: 0;
-  transition: all 0.2s;
+  bottom: 10px;
+  right: 10px;
+  transition: all 0.1s ease-in-out;
 }
 
 .event-button.expand {
   position: fixed;
   width: 100%;
   height: 200px;
+  bottom: 0;
+  right: 0;
   border-radius: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .event-button .opener {
