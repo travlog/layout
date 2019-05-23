@@ -45,16 +45,23 @@ export default {
   },
   computed: {
     cityNames () {
-      return this.cities.map(c => c.city)
+      return this.cities.map(c => `${c.city} / ${c.country}`)
     }
   },
   methods: {
     onSubmit () {
-      console.log('hello world')
+      const departure = this.cities.find(c => this.departure && this.departure.includes(c.city))
+      const arrived = this.cities.find(c => this.arrived && this.arrived.includes(c.city))
+
+      const canSubmit = !!departure && !!arrived
+      console.log(canSubmit)
     }
   }
 }
 </script>
 
 <style lang="scss">
+.new-trip {
+  height: 100%;
+}
 </style>
