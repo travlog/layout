@@ -29,6 +29,7 @@
       </div>
       <div>
         <button @click="$router.push({ name: 'setting' })">SETTING</button>
+        <button @click="reload">Reload</button>
       </div>
     </div>
     <div id="main">
@@ -43,13 +44,12 @@ export default {
       open: false
     }
   },
-  updated () {
-    // FIXME: 재시작을 사용자의 의지로 할 수 있어야함
-    console.log('New content is available: Please refresh.')
-    // window.location.reload(true)
+  mounted () {
   },
   methods: {
-    goToNew () {}
+    reload () {
+      window.location.reload()
+    }
   }
 }
 </script>
