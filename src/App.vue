@@ -70,6 +70,8 @@ export default {
 
 <style lang="scss">
 @import "vue-select/src/scss/vue-select.scss";
+@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
 $vs-dropdown-max-height: 200px;
 
 html, body, #app {
@@ -85,7 +87,7 @@ html, body, #app {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: "Nanum Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 #sidebar {
