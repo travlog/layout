@@ -46,7 +46,7 @@ export default {
   updated () {
     // FIXME: 재시작을 사용자의 의지로 할 수 있어야함
     console.log('New content is available: Please refresh.')
-    window.location.reload(true)
+    // window.location.reload(true)
   },
   methods: {
     goToNew () {}
