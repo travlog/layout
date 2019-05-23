@@ -69,6 +69,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "vue-select/src/scss/vue-select.scss";
+$vs-dropdown-max-height: 200px;
+
 html, body, #app {
   margin: 0;
   padding: 0;
@@ -116,6 +119,7 @@ html, body, #app {
 
 #main {
   overflow: auto;
+  height: calc(100% - 60px);
 }
 
 .form-group {
@@ -133,4 +137,5 @@ html, body, #app {
   font-size: 2rem;
   text-align: center;
 }
+
 </style>
