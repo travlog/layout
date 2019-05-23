@@ -24,7 +24,7 @@
         <span
           @click="$router.push({ name: 'home' })"
           style="font-weight: bold; font-family: monospace;">
-          TRAVELOG
+          travlog
         </span>
       </div>
       <div>

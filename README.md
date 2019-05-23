@@ -1,4 +1,4 @@
-# travelog
+# travlog
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9def49cb-637a-4d89-b38c-4b5c9f7d4c8d/deploy-status)](https://app.netlify.com/sites/sleepy-lichterman-31edb8/deploys)
 

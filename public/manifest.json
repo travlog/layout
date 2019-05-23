@@ -1,6 +1,6 @@
 {
-  "name": "travelog",
-  "short_name": "travelog",
+  "name": "travlog",
+  "short_name": "travlog",
   "icons": [
     {
       "src": "./img/icons/icon-192x192.png",
