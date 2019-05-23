@@ -11,25 +11,24 @@
         <router-link class="sidebar-menu-item" tag="li" to="/new-trip" @click.native="open = false">
           New Trip
         </router-link>
+        <router-link class="sidebar-menu-item" tag="li" to="/setting" @click.native="open = false">
+          Settings
+        </router-link>
         <router-link class="sidebar-menu-item" tag="li" to="/about" @click.native="open = false">
           About
         </router-link>
       </ul>
     </div>
     <div id="top-nav" class="box">
-      <div>
+      <div style="margin-right: 1rem;">
         <button @click="open = true">OPEN</button>
       </div>
-      <div>
+      <div style="flex: 1;">
         <span
           @click="$router.push({ name: 'home' })"
-          style="font-weight: bold; font-family: monospace;">
-          travlog
+          style="font-weight: bold; font-family: monospace; font-size: 1.5rem;">
+          {{ title }}
         </span>
-      </div>
-      <div>
-        <button @click="$router.push({ name: 'setting' })">SETTING</button>
-        <button @click="reload">Reload</button>
       </div>
     </div>
     <div id="main">
@@ -41,10 +40,25 @@
 export default {
   data () {
     return {
+      title: 'travlog',
       open: false
     }
   },
-  mounted () {
+  watch: {
+    '$route.name' (newRouteName) {
+      // const name = newRoute.name
+      switch (newRouteName) {
+        case 'setting':
+          this.title = 'travlog - 설정'
+          break
+        case 'new-trip':
+          this.title = 'travlog - 새 여정'
+          break
+        default:
+          this.title = 'travlog'
+          break
+      }
+    }
   },
   methods: {
     reload () {
