@@ -44,6 +44,7 @@ export default {
     }
   },
   updated () {
+    // FIXME: 재시작을 사용자의 의지로 할 수 있어야함
     console.log('New content is available: Please refresh.')
     window.location.reload(true)
   },
@@ -67,6 +68,7 @@ html, body, #app {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 #sidebar {
