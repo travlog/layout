@@ -5,7 +5,7 @@
         <base-input label="시작일" default-value="" type="date" />
       </div>
       <div class="form-group">
-        <base-input label="시작 나라" default-value="" />&nbsp;
+        <selector label="시작 나라" :options="['Germany','Japan', 'South Korea', 'Russia']" />&nbsp;
         <base-input label="시작 도시" default-value="" />
       </div>
 
@@ -32,11 +32,13 @@
 
 <script>
 import BaseInput from '@/components/BaseInput.vue'
+import Selector from '@/components/Selector.vue'
 
 export default {
   name: 'new-trip',
   components: {
-    BaseInput
+    BaseInput,
+    Selector
   },
   data () {
     return {
