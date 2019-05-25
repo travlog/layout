@@ -13,7 +13,15 @@
       </div>
     </div>
     <div id="main">
-      <router-view/>
+      <transition
+        name="fade"
+        mode="out-in"
+        @beforeLeave="beforeLeave"
+        @enter="enter"
+        @afterEnter="afterEnter"
+      >
+        <router-view/>
+      </transition>
     </div>
     <div id="sidebar" class="box" :class="{ active: open }">
       <div class="dimmer" @click="open = false"></div>
@@ -46,7 +54,8 @@ export default {
   data () {
     return {
       title: 'travlog',
-      open: false
+      open: false,
+      prevHeight: 0
     }
   },
   watch: {
@@ -68,6 +77,21 @@ export default {
   methods: {
     reload () {
       window.location.reload()
+    },
+    beforeLeave (element) {
+      this.prevHeight = getComputedStyle(element).height
+    },
+    enter (element) {
+      const { height } = getComputedStyle(element)
+
+      element.style.height = this.prevHeight
+
+      setTimeout(() => {
+        element.style.height = height
+      })
+    },
+    afterEnter (element) {
+      element.style.height = 'auto'
     }
   }
 }
@@ -213,5 +237,18 @@ html, body, #app {
   width: 100%;
   color: #fff;
   font-size: 1.2rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transition-property: height, opacity;
+  overflow: hidden;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>
