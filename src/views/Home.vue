@@ -9,26 +9,20 @@
     </div>
     <div class="trip-listing">
       <div class="trip-title">여행중</div>
-      <div
-        @click="$router.push({ name: 'trips-id', params: { id: trip._id } })"
-        class="trip-item"
-        v-for="trip in trips"
-        :key="trip.id"
-      >
-        <h1 class="trip-item-title">{{ trip.name }}</h1>
-        <div class="trip-item-meta">
-          {{ trip.departure }} 부터 {{ trip.arrived }} 까지 || {{ trip.events.length }} events
-        </div>
-      </div>
+      <trip v-for="trip in trips" :key="trip._id" :trip="trip" :route="{ name: 'trips-id', params: { id: trip._id } }" />
     </div>
   </div>
 </template>
 
 <script>
+import Trip from '@/components/Trip.vue'
 import { db } from '@/services'
 
 export default {
   name: 'home',
+  components: {
+    Trip
+  },
   data () {
     return {
       trips: []
