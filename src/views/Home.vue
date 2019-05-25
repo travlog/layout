@@ -1,8 +1,12 @@
 <template>
   <div class="home">
-    <h1>DASHBOARD</h1>
-    <h2>TODAY - {{ (new Date()).toLocaleDateString() }}</h2>
-    <h3>UPCOMING</h3>
+    <div class="today">
+      오늘<br>
+      {{ (new Date()).toLocaleDateString() }}
+    </div>
+    <div>
+      <div>다가오는 일정</div>
+    </div>
     <div>
       <div @click="$router.push({ name: 'trips-id', params: { id: 1 } })">
         <h1>MY TRIP</h1>
@@ -17,3 +21,15 @@ export default {
   name: 'home'
 }
 </script>
+
+<style>
+.home .today {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2rem;
+}
+</style>
