@@ -2,28 +2,31 @@
   <div class="new-trip">
     <form @submit.prevent="onSubmit">
       <div class="form-group">
-        <label for="">출발하는 날</label>
-        <input type="date">
-      </div>
-      <div class="form-group">
-        <label for="">시작 도시</label>
-        <v-select :options="cityNames" v-model="departure" />
-      </div>
-
-      <hr>
-
-      <div class="form-group">
-        <label for="">돌아오는 날</label>
-        <input type="date">
+        <base-input label="시작일" default-value="" />
       </div>
 
       <div class="form-group">
-        <label for="">마지막 도시</label>
-        <v-select :options="cityNames" v-model="arrived" />
+        <base-input label="시작 나라" default-value="" />
       </div>
 
       <div class="form-group">
-        <input type="submit">
+        <base-input label="시작 도시" default-value="" />
+      </div>
+
+      <div class="form-group">
+        <base-input label="돌아오는 날" default-value="" />
+      </div>
+
+      <div class="form-group">
+        <base-input label="도착 나라" default-value="" />
+      </div>
+
+      <div class="form-group">
+        <base-input label="도착 도시" default-value="" />
+      </div>
+
+      <div class="form-group">
+        <input type="submit" class="button" value="만들기">
       </div>
 
       <div class="form-group">
@@ -34,8 +37,13 @@
 </template>
 
 <script>
+import BaseInput from '@/components/BaseInput.vue'
+
 export default {
   name: 'new-trip',
+  components: {
+    BaseInput
+  },
   data () {
     return {
       cities: [],
@@ -62,6 +70,7 @@ export default {
 
 <style lang="scss">
 .new-trip {
+  padding-top: .5rem;
   height: 100%;
 }
 </style>

@@ -229,7 +229,7 @@ html, body, #app {
 
 .button {
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background-color: #5082ff;
   box-shadow: none;
   outline: none;
