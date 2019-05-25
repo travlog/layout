@@ -6,13 +6,15 @@
     </div>
     <div>
       <div>다가오는 일정</div>
+      <div>
+
+      </div>
     </div>
     <div>
       <div @click="$router.push({ name: 'trips-id', params: { id: 1 } })">
         <h1>MY TRIP</h1>
       </div>
     </div>
-    <h3>LATEST</h3>
   </div>
 </template>
 
