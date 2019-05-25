@@ -2,26 +2,20 @@
   <div class="new-trip">
     <form @submit.prevent="onSubmit">
       <div class="form-group">
-        <base-input label="시작일" default-value="" />
+        <base-input label="시작일" default-value="" type="date" />
       </div>
-
       <div class="form-group">
-        <base-input label="시작 나라" default-value="" />
-      </div>
-
-      <div class="form-group">
+        <base-input label="시작 나라" default-value="" />&nbsp;
         <base-input label="시작 도시" default-value="" />
       </div>
 
-      <div class="form-group">
-        <base-input label="돌아오는 날" default-value="" />
-      </div>
+      <br>
 
       <div class="form-group">
-        <base-input label="도착 나라" default-value="" />
+        <base-input label="돌아오는 날" default-value="" type="date" />
       </div>
-
       <div class="form-group">
+        <base-input label="도착 나라" default-value="" />&nbsp;
         <base-input label="도착 도시" default-value="" />
       </div>
 

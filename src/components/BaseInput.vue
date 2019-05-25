@@ -43,6 +43,7 @@ export default {
 
 <style lang="scss">
 .base-input-wrapper {
+  width: 100%;;
 }
 
 .base-input-label {
@@ -59,6 +60,7 @@ export default {
   border-style: solid;
   border-radius: 3px;
   padding-left: .5rem;
+  padding-right: .5rem;
 }
 
 .base-input:focus {

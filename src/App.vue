@@ -195,6 +195,7 @@ html, body, #app {
 .form-group {
   width: 100%;
   padding: .5rem 1rem;
+  display: flex;
 }
 
 .form-group input[type='text'],
