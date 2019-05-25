@@ -52,6 +52,7 @@ export default {
 
 .base-input {
   margin-top: 1px;
+  background-color: #fff;
   border-color: #c8c8c8;
   outline: none;
   padding-top: .5rem;
