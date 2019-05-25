@@ -26,7 +26,7 @@
       <div
         @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
         class="trip-item"
-        v-for="trip in inTrips"
+        v-for="trip in futureTrips"
         :key="trip.id"
       >
         <h1 class="trip-item-title">{{ trip.name }}</h1>
@@ -40,7 +40,7 @@
       <div
         @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
         class="trip-item"
-        v-for="trip in inTrips"
+        v-for="trip in pastTrips"
         :key="trip.id"
       >
         <h1 class="trip-item-title">{{ trip.name }}</h1>
