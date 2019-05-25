@@ -1,5 +1,8 @@
 <template>
   <div class="trip">
+    {{ currentTrip }}
+    <hr>
+    {{ currentTripEvents }}
     <!-- <div class="trip-header">
       <ul class="day-list">
         <li class="day">1일차</li>
@@ -61,11 +64,23 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
+  created () {
+    this.fetchCurrentTrip(this.$route.params.id)
+    this.fetchCurrentTripEvents(this.$route.params.id)
+  },
   data () {
     return {
       expand: false
     }
+  },
+  computed: {
+    ...mapGetters(['currentTrip', 'currentTripEvents'])
+  },
+  methods: {
+    ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents'])
   }
 }
 </script>

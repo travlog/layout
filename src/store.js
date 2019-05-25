@@ -10,12 +10,20 @@ export default new Vuex.Store({
   state: {
     currentTrip: null,
     currentEvent: null,
+    currentTripEvents: [],
     trips: [],
     events: []
   },
   mutations: {
-    SET_CURRENT_TRIP () {},
-    SET_CURRENT_EVENT () {},
+    SET_CURRENT_TRIP (state, payload) {
+      state.currentTrip = payload
+    },
+    SET_CURRENT_EVENT (state, payload) {
+      state.currentEvent = payload
+    },
+    SET_CURRENT_TRIP_EVENTS (state, payload) {
+      state.currentTripEvents = payload
+    },
     INITIALIZE_TRIPS (state, payload) {
       state.trips = payload
     },
@@ -27,7 +35,6 @@ export default new Vuex.Store({
     async initializeStorage ({ commit }) {
       const trips = await localforage.getItem('trips')
       const events = await localforage.getItem('events')
-
       if (!trips) {
         await localforage.setItem('trips', [])
       }
@@ -55,9 +62,18 @@ export default new Vuex.Store({
           return localforage.getItem('trips')
         })
     },
-    fetchCurrentTrip ({ commit, rootState }, id) {
-      const trip = rootState.trips.find(t => t.id === id)
+    async fetchCurrentTrip ({ commit, rootState }, id) {
+      const trips = await localforage.getItem('trips')
+      const events = await localforage.getItem('events')
+      const trip = trips.find(t => t.id === id)
+      commit('INITIALIZE_TRIPS', trips || [])
+      commit('INITIALIZE_EVENTS', events || [])
       commit('SET_CURRENT_TRIP', trip)
+    },
+    async fetchCurrentTripEvents ({ commit }, id) {
+      const events = await localforage.getItem('events')
+      const tripEvents = events.find(e => e.tripId === id)
+      commit('SET_CURRENT_TRIP_EVENTS', tripEvents || [])
     },
     fetchCurrentEvent ({ commit, rootState }, id) {
       const event = rootState.events.find(e => e.id === id)
@@ -66,6 +82,9 @@ export default new Vuex.Store({
   },
   getters: {
     trips: state => state.trips,
+    currentTrip: state => state.currentTrip,
+    currentEvent: state => state.currentEvent,
+    currentTripEvents: state => state.currentTripEvents,
     inTrips: state => state.trips.filter(trip => {
       const now = format(new Date(), 'YYYY-MM-DD')
       return (isEqual(now, trip.departure) || isEqual(now, trip.arrived)) ||
