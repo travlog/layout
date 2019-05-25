@@ -82,6 +82,10 @@ $vs-dropdown-max-height: 200px;
 html, body, #app {
   margin: 0;
   padding: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
+  -webkit-touch-callout: none;
 }
 
 * {
@@ -92,6 +96,7 @@ html, body, #app {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  font-display: block;
   font-family: "Nanum Gothic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
