@@ -8,13 +8,11 @@
       <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 계획하기</button>
     </div>
     <div>
-      <div class="trip-title">다가오는 일정</div>
-    </div>
-    <div>
+      <div class="trip-title">여행중</div>
       <div
         @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
         class="trip-item"
-        v-for="trip in trips"
+        v-for="trip in inTrips"
         :key="trip.id"
       >
         <h1 class="trip-item-title">{{ trip.name }}</h1>
@@ -22,6 +20,14 @@
           {{ trip.departure }} 부터 {{ trip.arrived }} 까지
         </div>
       </div>
+    </div>
+    <div>
+      <div class="trip-title">미래</div>
+      {{ futureTrips }}
+    </div>
+    <div>
+      <div class="trip-title">과거</div>
+      {{ pastTrips }}
     </div>
   </div>
 </template>
@@ -31,7 +37,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   computed: {
-    ...mapGetters(['trips'])
+    ...mapGetters(['inTrips', 'pastTrips', 'futureTrips'])
   }
 }
 </script>

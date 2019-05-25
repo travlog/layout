@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import localforage from 'localforage'
 import shortId from 'shortid'
+import { format, isBefore, isAfter, isEqual } from 'date-fns'
 
 Vue.use(Vuex)
 
@@ -64,6 +65,19 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    trips: state => state.trips
+    trips: state => state.trips,
+    inTrips: state => state.trips.filter(trip => {
+      const now = format(new Date(), 'YYYY-MM-DD')
+      return (isEqual(now, trip.departure) || isEqual(now, trip.arrived)) ||
+      (isBefore(now, trip.arrived) && isAfter(now, trip.departure))
+    }),
+    pastTrips: state => state.trips.filter(trip => {
+      const now = format(new Date(), 'YYYY-MM-DD')
+      return isAfter(now, trip.arrived) && isAfter(now, trip.departure)
+    }),
+    futureTrips: state => state.trips.filter(trip => {
+      const now = format(new Date(), 'YYYY-MM-DD')
+      return isBefore(now, trip.arrived) && isBefore(now, trip.departure)
+    })
   }
 })
