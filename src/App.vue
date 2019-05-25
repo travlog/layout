@@ -202,4 +202,16 @@ html, body, #app {
   z-index: 10;
   transition: opacity 0.5s;
 }
+
+.button {
+  border: none;
+  border-radius: 4px;
+  background-color: #5082ff;
+  box-shadow: none;
+  outline: none;
+  padding: 1rem;
+  width: 100%;
+  color: #fff;
+  font-size: 1.2rem;
+}
 </style>

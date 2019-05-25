@@ -4,6 +4,9 @@
       오늘<br>
       {{ (new Date()).toLocaleDateString() }}
     </div>
+    <div class="new-trip-button">
+      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 계획하기</button>
+    </div>
     <div>
       <div class="trip-title">다가오는 일정</div>
     </div>
@@ -59,5 +62,10 @@ export default {
 
 .trip-item-meta {
 
+}
+.new-trip-button {
+  padding-left: .5rem;
+  padding-right: .5rem;
+  margin-bottom: 1rem;
 }
 </style>
