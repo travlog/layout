@@ -22,7 +22,7 @@
 <script>
 import BaseInput from '@/components/BaseInput.vue'
 import { format, isAfter, isBefore } from 'date-fns'
-import shortId from 'shortid'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'new-trip',
@@ -56,24 +56,17 @@ export default {
       }
     }
   },
-  mounted () {
-  },
   methods: {
+    ...mapActions(['createTrip']),
     onChanged ({ property, value }) {
       this.$set(this, property, value)
     },
     async onSubmit () {
-      const trips = await this.$lf.getItem('trips')
-      const newTrip = {
-        id: shortId.generate(),
+      await this.createTrip({
         name: this.tripName,
         departure: this.departure,
-        arrived: this.arrived,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      trips.push(newTrip)
-      await this.$lf.setItem('trips', trips)
+        arrived: this.arrived
+      })
       this.$router.push({ name: 'home' })
     }
   }

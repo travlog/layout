@@ -1,6 +1,6 @@
 <template>
   <div class="trip">
-    <div class="trip-header">
+    <!-- <div class="trip-header">
       <ul class="day-list">
         <li class="day">1일차</li>
         <li class="day">2일차</li>
@@ -10,12 +10,12 @@
         <li class="day">6일차</li>
         <li class="day">7일차</li>
       </ul>
-    </div>
+    </div> -->
     <div class="trip-body">
-      <div class="event-header">
+      <!-- <div class="event-header">
         <h2 class="event-title">1일차</h2>
-      </div>
-      <ul class="event-list">
+      </div> -->
+      <!-- <ul class="event-list">
         <li class="event">
           <div class="event-card">
             <div class="event-icon">아이콘</div>
@@ -36,7 +36,7 @@
             <div class="event-action">$123</div>
           </div>
         </li>
-      </ul>
+      </ul> -->
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;">

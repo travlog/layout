@@ -27,18 +27,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'home',
-  data () {
-    return {
-      trips: []
-    }
-  },
-  created () {
-    this.$lf.getItem('trips')
-      .then(result => {
-        this.trips = result
-      })
+  computed: {
+    ...mapGetters(['trips'])
   }
 }
 </script>
