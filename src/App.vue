@@ -1,8 +1,23 @@
 <template>
   <div id="app">
-    <div id="sidebar" v-if="open" class="box">
+    <div id="top-nav" class="box">
+      <div style="margin-right: 1rem;">
+        <button @click="open = true">OPEN</button>
+      </div>
+      <div style="flex: 1;">
+        <span
+          @click="$router.push({ name: 'home' })"
+          style="font-weight: bold; font-family: monospace; font-size: 1.5rem;">
+          {{ title }}
+        </span>
+      </div>
+    </div>
+    <div id="main">
+      <router-view/>
+    </div>
+    <div id="sidebar" class="box" :class="{ active: open }">
       <div class="dimmer" @click="open = false"></div>
-      <ul class="sidbar-menu">
+      <ul class="sidebar-menu">
         <li class="sidebar-menu-item">
           <button @click="open = false">CLOSE</button>
         </li>
@@ -19,21 +34,6 @@
           About
         </router-link>
       </ul>
-    </div>
-    <div id="top-nav" class="box">
-      <div style="margin-right: 1rem;">
-        <button @click="open = true">OPEN</button>
-      </div>
-      <div style="flex: 1;">
-        <span
-          @click="$router.push({ name: 'home' })"
-          style="font-weight: bold; font-family: monospace; font-size: 1.5rem;">
-          {{ title }}
-        </span>
-      </div>
-    </div>
-    <div id="main">
-      <router-view/>
     </div>
   </div>
 </template>
@@ -96,20 +96,35 @@ html, body, #app {
   height: 100vh;
   display: inline-block;
   border: 1px solid black;
-  z-index: 1000;
+  z-index: 0;
   background: transparent;
   position: fixed;
+  opacity: 0;
 }
 
-.sidbar-menu {
+#sidebar.active {
+  z-index: 1000;
+  opacity: 1;
+}
+
+.sidebar-menu {
   list-style: none;
   margin: 0;
   padding: 0;
   position: fixed;
-  width: 280px;
+  top: 0;
+  left: 0;
+  width: 200px;
+  transform: translateX(-200px);
   z-index: 1000;
   height: 100vh;
   background-color: #fff;
+  transition: transform 0.2s;
+}
+
+#sidebar.active .sidebar-menu {
+  transform: translateX(0);
+  transition: transform 0.2s;
 }
 
 .sidebar-menu-item {
@@ -152,11 +167,20 @@ html, body, #app {
 
 .dimmer {
   position: fixed;
-  width: 100vw;
-  height: 100vh;
+  width: 0;
+  height: 0;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.1);
-  z-index: 10
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.active .dimmer {
+  width: 100vw;
+  height: 100vh;
+  opacity: 1;
+  z-index: 10;
+  transition: opacity 0.5s;
 }
 </style>
