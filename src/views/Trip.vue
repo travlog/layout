@@ -6,7 +6,7 @@
     </div>
     <hr>
     <div class="trip-body" v-if="trip && trip.events">
-      {{ trip.events }}
+      <event v-for="event in trip.events" :key="event._id" :event="event" />
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
@@ -59,12 +59,14 @@
 
 <script>
 import BaseInput from '@/components/BaseInput.vue'
+import Event from '@/components/Event.vue'
 import { db } from '@/services'
 import shortId from 'shortid'
 
 export default {
   components: {
-    BaseInput
+    BaseInput,
+    Event
   },
   created () {
     db.get(this.$route.params.id)
@@ -150,6 +152,7 @@ export default {
 .trip-body {
   flex: 1;
   overflow: auto;
+  padding: .5rem;
 }
 
 .day-list {
@@ -175,44 +178,6 @@ export default {
   margin-top: .5rem;
   margin-bottom: .5rem;
   padding-left: .5rem;
-}
-
-.event-list {
-  padding: 0;
-  margin: 0;
-  padding: 0.5rem;
-}
-
-.event {
-  padding: 1rem;
-  border: 1px solid black;
-  margin-bottom: 1rem;
-}
-
-.event-card {
-  display: flex;
-  justify-content: space-between;
-}
-
-.event-icon {
-  margin-right: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
-}
-
-.event-body {
-  flex: 1;
-}
-
-.event-action {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
 }
 
 .event-button {
