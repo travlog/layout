@@ -58,22 +58,6 @@ export default {
       prevHeight: 0
     }
   },
-  watch: {
-    '$route.name' (newRouteName) {
-      // const name = newRoute.name
-      switch (newRouteName) {
-        case 'setting':
-          this.title = 'travlog - 설정'
-          break
-        case 'new-trip':
-          this.title = 'travlog - 새 여정'
-          break
-        default:
-          this.title = 'travlog'
-          break
-      }
-    }
-  },
   methods: {
     reload () {
       window.location.reload()
