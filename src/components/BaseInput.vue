@@ -6,6 +6,7 @@
       v-model="value"
       :type="type"
       :autofocus="autofocus"
+      autocomplete="off"
     >
   </div>
 </template>
@@ -18,7 +19,7 @@ export default {
       default: () => ''
     },
     defaultValue: {
-      type: String,
+      type: [String, Date],
       default: () => ''
     },
     type: {
