@@ -22,7 +22,7 @@ export default {
       default: () => ''
     },
     defaultValue: {
-      type: [String, Date],
+      type: [String, Date, Number],
       default: () => ''
     },
     type: {

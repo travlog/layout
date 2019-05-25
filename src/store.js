@@ -62,6 +62,20 @@ export default new Vuex.Store({
           return localforage.getItem('trips')
         })
     },
+    async createEvent ({ commit }, eventParams) {
+      const events = await localforage.getItem('trips')
+      const newEvent = {
+        ...eventParams,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      events.push(newEvent)
+      return localforage.setItem('events', events)
+        .then(_ => {
+          commit('INITIALIZE_TRIPS', events)
+          return localforage.getItem('events')
+        })
+    },
     async fetchCurrentTrip ({ commit, rootState }, id) {
       const trips = await localforage.getItem('trips')
       const events = await localforage.getItem('events')

@@ -1,81 +1,55 @@
 <template>
   <div class="trip">
-    {{ currentTrip }}
+    <div class="trip-header" v-if="currentTrip">
+      <div class="trip-title">{{ currentTrip.name }}</div>
+      <div class="trip-range">{{ currentTrip.departure }} - {{ currentTrip.arrived }}</div>
+    </div>
     <hr>
-    {{ currentTripEvents }}
-    <!-- <div class="trip-header">
-      <ul class="day-list">
-        <li class="day">1일차</li>
-        <li class="day">2일차</li>
-        <li class="day">3일차</li>
-        <li class="day">4일차</li>
-        <li class="day">5일차</li>
-        <li class="day">6일차</li>
-        <li class="day">7일차</li>
-      </ul>
-    </div> -->
     <div class="trip-body">
-      <!-- <div class="event-header">
-        <h2 class="event-title">1일차</h2>
-      </div> -->
-      <!-- <ul class="event-list">
-        <li class="event">
-          <div class="event-card">
-            <div class="event-icon">아이콘</div>
-            <div class="event-body">
-              <div>TITLE</div>
-              <div>SUBTITLE</div>
-            </div>
-            <div class="event-action">$123</div>
-          </div>
-        </li>
-        <li class="event">
-          <div class="event-card">
-            <div class="event-icon">아이콘</div>
-            <div class="event-body">
-              <div>TITLE</div>
-              <div>SUBTITLE</div>
-            </div>
-            <div class="event-action">$123</div>
-          </div>
-        </li>
-      </ul> -->
+      <div v-if="currentTripEvents">
+        <div v-for="event in currentTripEvents" :key="event.id">
+          {{ event }}
+        </div>
+      </div>
+      <div v-else>
+        이벤트가 없음
+      </div>
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
         <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
           새 이벤트 <button @click.prevent="expand = false">닫기</button>
         </h4>
-        <form @submit.prevent="createEvent" style="flex: 1;">
+        <form @submit.prevent="onSubmit" style="flex: 1;">
           <div class="form-group">
-            <base-input label="날짜" property="name" :default-value="newEvent.date" type="date" />
+            <base-input label="날짜" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" />
+            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" />
+            <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" />
+            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="도시" property="city" :default-value="newEvent.city" type="text" />
+            <base-input label="도시" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="장소" property="place" :default-value="newEvent.place" type="text" />
+            <base-input label="장소" property="place" :default-value="newEvent.place" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="제목" property="do" :default-value="newEvent.do" type="text" />
+            <base-input label="제목" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" />
+            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" />
+            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="노트" property="note" :default-value="newEvent.note" type="text" />
+            <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
             <input type="submit">
@@ -104,12 +78,6 @@ export default {
   data () {
     return {
       expand: false,
-      // 언제 - 날짜: 2019년 06월 6일,
-      // 언제 - 시간: 오후 12시,
-      // 어디서 - 도시/나라: 프랑크푸르트(독일),
-      // 어디서 - 장소 : 음식점 A,
-      // 무엇을: 학센을 먹음,
-      // 비용: 얼마
       newEvent: {
         date: '',
         time: '',
@@ -121,8 +89,7 @@ export default {
         note: '',
         currency: 'KRW',
         price: 0,
-        createdAt: new Date(),
-        updatedAt: new Date()
+        tripId: this.$route.params.id
       }
     }
   },
@@ -130,7 +97,18 @@ export default {
     ...mapGetters(['currentTrip', 'currentTripEvents'])
   },
   methods: {
-    ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents'])
+    ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents', 'createEvent']),
+    onSubmit () {
+      const event = Object.assign({}, this.newEvent)
+      this.createEvent(event)
+        .then(_ => {
+          console.log('event created')
+          this.expand = false
+        })
+    },
+    onNewEventChanged ({ property, value }) {
+      this.$set(this.newEvent, property, value)
+    }
   }
 }
 </script>
@@ -150,6 +128,16 @@ export default {
   height: 60px;
   min-height: 60px;
   overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: .5rem;
 }
 
 .trip-body {
