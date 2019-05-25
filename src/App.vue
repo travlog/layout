@@ -65,9 +65,6 @@ export default {
   },
   methods: {
     ...mapActions(['initializeStorage']),
-    reload () {
-      window.location.reload()
-    },
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
     },
