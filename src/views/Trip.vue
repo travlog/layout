@@ -19,15 +19,11 @@
             <base-input label="날짜" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
+            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />&nbsp;
             <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
+            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />&nbsp;
             <base-input label="도시" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
@@ -37,13 +33,11 @@
             <base-input label="제목" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
-            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
             <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />&nbsp;
+            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
             <input type="submit" class="button" value="만들기">
