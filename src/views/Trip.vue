@@ -116,7 +116,7 @@ export default {
           this.expand = false
           this.newEvent = newEvent
           this.newEvent.id = ''
-          this.newEvent.place = 0
+          this.newEvent.place = ''
           this.newEvent.price = 0
           this.newEvent.note = ''
           this.newEvent.do = ''
@@ -160,6 +160,7 @@ export default {
   flex: 1;
   overflow: auto;
   padding: .5rem;
+  margin-bottom: 3rem;
 }
 
 .day-list {
