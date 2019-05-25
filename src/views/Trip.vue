@@ -7,9 +7,10 @@
     <hr>
     <div class="trip-body">
       <div v-if="currentTripEvents">
-        <div v-for="event in currentTripEvents" :key="event.id">
+        => {{currentTripEvents}}
+        <!-- <div v-for="event in currentTripEvents" :key="event.id">
           {{ event }}
-        </div>
+        </div> -->
       </div>
       <div v-else>
         이벤트가 없음
@@ -94,17 +95,20 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentTrip', 'currentTripEvents'])
+    ...mapGetters(['currentTrip']),
+    currentTripEvents () {
+      return this.$store.getters.currentTripEvents(this.$route.params.id)
+    }
   },
   methods: {
     ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents', 'createEvent']),
-    onSubmit () {
+    async onSubmit () {
       const event = Object.assign({}, this.newEvent)
-      this.createEvent(event)
-        .then(_ => {
-          console.log('event created')
-          this.expand = false
-        })
+      console.log(event)
+      debugger
+      await this.createEvent(event)
+      await this.fetchCurrentTripEvents()
+      this.expand = false
     },
     onNewEventChanged ({ property, value }) {
       this.$set(this.newEvent, property, value)

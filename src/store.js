@@ -70,11 +70,8 @@ export default new Vuex.Store({
         updatedAt: new Date()
       }
       events.push(newEvent)
+      commit('INITIALIZE_EVENTS', events)
       return localforage.setItem('events', events)
-        .then(_ => {
-          commit('INITIALIZE_TRIPS', events)
-          return localforage.getItem('events')
-        })
     },
     async fetchCurrentTrip ({ commit, rootState }, id) {
       const trips = await localforage.getItem('trips')
@@ -98,7 +95,8 @@ export default new Vuex.Store({
     trips: state => state.trips,
     currentTrip: state => state.currentTrip,
     currentEvent: state => state.currentEvent,
-    currentTripEvents: state => state.currentTripEvents,
+    currentTripEvents: state => tripId => state.events.filter(e => e.tripId === tripId),
+    events: state => state.events,
     inTrips: state => state.trips.filter(trip => {
       const now = format(new Date(), 'YYYY-MM-DD')
       return (isEqual(now, trip.departure) || isEqual(now, trip.arrived)) ||
