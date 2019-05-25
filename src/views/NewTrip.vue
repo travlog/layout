@@ -38,7 +38,7 @@ export default {
   name: 'new-trip',
   data () {
     return {
-      cities: require('@/locations.json'),
+      cities: [],
       departure: '',
       arrived: ''
     }
