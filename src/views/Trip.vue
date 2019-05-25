@@ -11,7 +11,8 @@
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
         <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
-          새 이벤트 <button @click.prevent="expand = false">닫기</button>
+          새 이벤트
+          <img src="@/assets/icons/x.svg" alt="closer" class="closer" @click.prevent="expand = false">
         </h4>
         <form @submit.prevent="onSubmit" style="flex: 1;">
           <div class="form-group">
@@ -93,7 +94,6 @@ export default {
   methods: {
     async onSubmit () {
       const newEvent = Object.assign({ _id: shortId.generate() }, this.newEvent)
-      console.log(event)
       const { id } = this.$route.params
       db.get(id)
         .then((doc) => {
@@ -104,8 +104,14 @@ export default {
         .then(_ => db.get(id))
         .then((doc) => {
           this.trip = doc
+          this.expand = false
+          this.newEvent = newEvent
+          this.newEvent.id = ''
+          this.newEvent.place = 0
+          this.newEvent.price = 0
+          this.newEvent.note = ''
+          this.newEvent.do = ''
         })
-      this.expand = false
     },
     onNewEventChanged ({ property, value }) {
       this.$set(this.newEvent, property, value)
@@ -231,6 +237,7 @@ export default {
   overflow-y: auto;
   z-index: 1000;
   background-color: #fff;
+  border: none;
 }
 
 .event-button .opener {
@@ -242,8 +249,8 @@ export default {
 
 .event-button .closer {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 13px;
+  right: 13px;
 }
 
 .event-type-list {

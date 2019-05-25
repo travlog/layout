@@ -58,9 +58,6 @@ export default {
       prevHeight: 0
     }
   },
-  created () {
-    this.initializeStorage()
-  },
   methods: {
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
