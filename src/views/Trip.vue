@@ -42,19 +42,45 @@
       </ul> -->
     </div>
     <div class="event-button" :class="{ expand: expand }">
-      <div v-if="expand" style="position: relative;">
-        <h4 style="text-align: center; margin: 0; padding: 0; margin-bottom: 1rem;"> 새 이벤트 선택기</h4>
-        <ul class="event-type-list">
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'flight' } })">비행기</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'hotel' } })">호텔</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'taxi' } })">택시</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'train' } })">기차</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'bus' } })">버스</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'restaurant' } })">음식점</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'activity' } })">액티비티</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'note' } })">기타(노트)</li>
-        </ul>
-        <button class="closer" @click="expand = false">닫기</button>
+      <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
+        <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
+          새 이벤트 <button @click.prevent="expand = false">닫기</button>
+        </h4>
+        <form @submit.prevent="createEvent" style="flex: 1;">
+          <div class="form-group">
+            <base-input label="날짜" property="name" :default-value="newEvent.date" type="date" />
+          </div>
+          <div class="form-group">
+            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" />
+          </div>
+          <div class="form-group">
+            <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="도시" property="city" :default-value="newEvent.city" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="장소" property="place" :default-value="newEvent.place" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="제목" property="do" :default-value="newEvent.do" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" />
+          </div>
+          <div class="form-group">
+            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" />
+          </div>
+          <div class="form-group">
+            <base-input label="노트" property="note" :default-value="newEvent.note" type="text" />
+          </div>
+          <div class="form-group">
+            <input type="submit">
+          </div>
+        </form>
       </div>
       <div class="opener" v-else @click="expand = true">
         추가
@@ -65,15 +91,39 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import BaseInput from '@/components/BaseInput.vue'
 
 export default {
+  components: {
+    BaseInput
+  },
   created () {
     this.fetchCurrentTrip(this.$route.params.id)
     this.fetchCurrentTripEvents(this.$route.params.id)
   },
   data () {
     return {
-      expand: false
+      expand: false,
+      // 언제 - 날짜: 2019년 06월 6일,
+      // 언제 - 시간: 오후 12시,
+      // 어디서 - 도시/나라: 프랑크푸르트(독일),
+      // 어디서 - 장소 : 음식점 A,
+      // 무엇을: 학센을 먹음,
+      // 비용: 얼마
+      newEvent: {
+        date: '',
+        time: '',
+        timezone: '',
+        country: '',
+        city: '',
+        place: '',
+        do: '',
+        note: '',
+        currency: 'KRW',
+        price: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
     }
   },
   computed: {
@@ -185,11 +235,13 @@ export default {
 .event-button.expand {
   position: fixed;
   width: 100%;
-  height: 200px;
+  height: 100%;
   bottom: 0;
   right: 0;
   border-radius: 0;
-  overflow-y: hidden;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: #fff;
 }
 
 .event-button .opener {
@@ -224,5 +276,10 @@ export default {
   height: 30px;
   margin-right: 1rem;
   margin-bottom: 1rem;
+}
+
+.new-event-form-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 </style>

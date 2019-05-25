@@ -71,6 +71,7 @@ export default {
   border-radius: 3px;
   padding-left: .5rem;
   padding-right: .5rem;
+  width: 100%;
 }
 
 .base-input:focus {
