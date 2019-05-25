@@ -23,11 +23,31 @@
     </div>
     <div>
       <div class="trip-title">미래</div>
-      {{ futureTrips }}
+      <div
+        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
+        class="trip-item"
+        v-for="trip in inTrips"
+        :key="trip.id"
+      >
+        <h1 class="trip-item-title">{{ trip.name }}</h1>
+        <div class="trip-item-meta">
+          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
+        </div>
+      </div>
     </div>
     <div>
       <div class="trip-title">과거</div>
-      {{ pastTrips }}
+      <div
+        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
+        class="trip-item"
+        v-for="trip in inTrips"
+        :key="trip.id"
+      >
+        <h1 class="trip-item-title">{{ trip.name }}</h1>
+        <div class="trip-item-meta">
+          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
+        </div>
+      </div>
     </div>
   </div>
 </template>
