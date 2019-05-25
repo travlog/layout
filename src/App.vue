@@ -2,12 +2,12 @@
   <div id="app">
     <div id="top-nav" class="box">
       <div style="margin-right: 1rem;">
-        <button @click="open = true">OPEN</button>
+        <img src="@/assets/icons/menu.svg" alt="" @click="open = true" style="vertical-align: middle;">
       </div>
       <div style="flex: 1;">
         <span
           @click="$router.push({ name: 'home' })"
-          style="font-weight: bold; font-family: monospace; font-size: 1.5rem;">
+          style="font-weight: bold; font-family: monospace; font-size: 2rem; line-height: 24px; color: #fff;">
           {{ title }}
         </span>
       </div>
@@ -18,20 +18,24 @@
     <div id="sidebar" class="box" :class="{ active: open }">
       <div class="dimmer" @click="open = false"></div>
       <ul class="sidebar-menu">
-        <li class="sidebar-menu-item">
-          <button @click="open = false">CLOSE</button>
+        <li class="sidebar-menu-brand">
+          <img src="@/assets/logo.png" alt="" width="100px">
         </li>
         <router-link class="sidebar-menu-item" tag="li" to="/" @click.native="open = false">
-          Home
+          <img src="@/assets/icons/home.svg" alt="Home" style="vertical-align: middle;">&nbsp;
+          처음
         </router-link>
         <router-link class="sidebar-menu-item" tag="li" to="/new-trip" @click.native="open = false">
-          New Trip
+          <img src="@/assets/icons/send.svg" alt="New Trip" style="vertical-align: middle;">&nbsp;
+          새 여행 만들기
         </router-link>
         <router-link class="sidebar-menu-item" tag="li" to="/setting" @click.native="open = false">
-          Settings
+          <img src="@/assets/icons/settings.svg" alt="Settings" style="vertical-align: middle;">&nbsp;
+          설정
         </router-link>
         <router-link class="sidebar-menu-item" tag="li" to="/about" @click.native="open = false">
-          About
+          <img src="@/assets/icons/help-circle.svg" alt="About" style="vertical-align: middle;">&nbsp;
+          travlog는
         </router-link>
       </ul>
     </div>
@@ -100,11 +104,21 @@ html, body, #app {
   background: transparent;
   position: fixed;
   opacity: 0;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
 }
 
 #sidebar.active {
   z-index: 1000;
   opacity: 1;
+}
+
+.sidebar-menu-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  background-color: #FFFBFA;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.1);
 }
 
 .sidebar-menu {
@@ -129,19 +143,19 @@ html, body, #app {
 
 .sidebar-menu-item {
   width: 100%;
-  border: 1px solid black;
-  padding: 1rem .5rem;
+  padding: 1rem;
   margin-bottom: .5rem;
 }
 
 #top-nav {
   width: 100%;
   height: 60px;
-  border: 1px solid black;
   padding: .5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+  background-color: #0032aa;
 }
 
 #main {
