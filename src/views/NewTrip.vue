@@ -2,21 +2,11 @@
   <div class="new-trip">
     <form @submit.prevent="onSubmit">
       <div class="form-group">
-        <base-input label="시작일" default-value="" type="date" />
+        <base-input label="이름" default-value="" type="date" />
       </div>
       <div class="form-group">
-        <selector label="시작 나라" :options="['Germany','Japan', 'South Korea', 'Russia']" />&nbsp;
-        <base-input label="시작 도시" default-value="" />
-      </div>
-
-      <br>
-
-      <div class="form-group">
-        <base-input label="돌아오는 날" default-value="" type="date" />
-      </div>
-      <div class="form-group">
-        <base-input label="도착 나라" default-value="" />&nbsp;
-        <base-input label="도착 도시" default-value="" />
+        <base-input label="떠나는날" default-value="" type="date" />
+        <base-input label="돌아오는날" default-value="" type="date" />
       </div>
 
       <div class="form-group">
@@ -32,13 +22,11 @@
 
 <script>
 import BaseInput from '@/components/BaseInput.vue'
-import Selector from '@/components/Selector.vue'
 
 export default {
   name: 'new-trip',
   components: {
-    BaseInput,
-    Selector
+    BaseInput
   },
   data () {
     return {
