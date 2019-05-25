@@ -72,6 +72,13 @@ export default {
     db.get(this.$route.params.id)
       .then((result) => {
         this.trip = result
+        if (this.trip.events && this.trip.events.length > 0) {
+          const last = this.trip.events[this.trip.events.length - 1]
+          this.newEvent.country = last.country
+          this.newEvent.city = last.city
+          this.newEvent.timezone = last.timezone
+          this.newEvent.currency = last.currency
+        }
       })
   },
   data () {
