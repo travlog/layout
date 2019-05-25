@@ -50,8 +50,6 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-
 export default {
   data () {
     return {
@@ -60,19 +58,13 @@ export default {
       prevHeight: 0
     }
   },
-  created () {
-    this.initializeStorage()
-  },
   methods: {
-    ...mapActions(['initializeStorage']),
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
     },
     enter (element) {
       const { height } = getComputedStyle(element)
-
       element.style.height = this.prevHeight
-
       setTimeout(() => {
         element.style.height = height
       })

@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import localforage from 'localforage'
-import shortId from 'shortid'
-import { format, isBefore, isAfter, isEqual } from 'date-fns'
 
 Vue.use(Vuex)
 
@@ -33,62 +30,16 @@ export default new Vuex.Store({
   },
   actions: {
     async initializeStorage ({ commit }) {
-      const trips = await localforage.getItem('trips')
-      const events = await localforage.getItem('events')
-      if (!trips) {
-        await localforage.setItem('trips', [])
-      }
-      if (!events) {
-        await localforage.setItem('events', [])
-      }
-
-      commit('INITIALIZE_TRIPS', trips || [])
-      commit('INITIALIZE_EVENTS', events || [])
     },
     async createTrip ({ commit }, { name, departure, arrived }) {
-      const trips = await localforage.getItem('trips')
-      const newTrip = {
-        id: shortId.generate(),
-        name,
-        departure,
-        arrived,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      trips.push(newTrip)
-      return localforage.setItem('trips', trips)
-        .then(_ => {
-          commit('INITIALIZE_TRIPS', trips)
-          return localforage.getItem('trips')
-        })
     },
     async createEvent ({ commit }, eventParams) {
-      const events = await localforage.getItem('trips')
-      const newEvent = {
-        ...eventParams,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-      events.push(newEvent)
-      commit('INITIALIZE_EVENTS', events)
-      return localforage.setItem('events', events)
     },
     async fetchCurrentTrip ({ commit, rootState }, id) {
-      const trips = await localforage.getItem('trips')
-      const events = await localforage.getItem('events')
-      const trip = trips.find(t => t.id === id)
-      commit('INITIALIZE_TRIPS', trips || [])
-      commit('INITIALIZE_EVENTS', events || [])
-      commit('SET_CURRENT_TRIP', trip)
     },
     async fetchCurrentTripEvents ({ commit }, id) {
-      const events = await localforage.getItem('events')
-      const tripEvents = events.find(e => e.tripId === id)
-      commit('SET_CURRENT_TRIP_EVENTS', tripEvents || [])
     },
     fetchCurrentEvent ({ commit, rootState }, id) {
-      const event = rootState.events.find(e => e.id === id)
-      commit('SET_CURRENT_EVENT', event)
     }
   },
   getters: {

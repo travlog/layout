@@ -1,25 +1,18 @@
 <template>
   <div class="trip">
-    <div class="trip-header" v-if="currentTrip">
-      <div class="trip-title">{{ currentTrip.name }}</div>
-      <div class="trip-range">{{ currentTrip.departure }} - {{ currentTrip.arrived }}</div>
+    <div class="trip-header" v-if="trip">
+      <div class="trip-title">{{ trip.name }}</div>
+      <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
     </div>
     <hr>
-    <div class="trip-body">
-      <div v-if="currentTripEvents">
-        => {{currentTripEvents}}
-        <!-- <div v-for="event in currentTripEvents" :key="event.id">
-          {{ event }}
-        </div> -->
-      </div>
-      <div v-else>
-        이벤트가 없음
-      </div>
+    <div class="trip-body" v-if="trip && trip.events">
+      <event v-for="event in trip.events" :key="event._id" :event="event" />
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
         <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
-          새 이벤트 <button @click.prevent="expand = false">닫기</button>
+          새 이벤트
+          <img src="@/assets/icons/x.svg" alt="closer" class="closer" @click.prevent="expand = false">
         </h4>
         <form @submit.prevent="onSubmit" style="flex: 1;">
           <div class="form-group">
@@ -53,7 +46,7 @@
             <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <input type="submit">
+            <input type="submit" class="button" value="만들기">
           </div>
         </form>
       </div>
@@ -65,20 +58,26 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import BaseInput from '@/components/BaseInput.vue'
+import Event from '@/components/Event.vue'
+import { db } from '@/services'
+import shortId from 'shortid'
 
 export default {
   components: {
-    BaseInput
+    BaseInput,
+    Event
   },
   created () {
-    this.fetchCurrentTrip(this.$route.params.id)
-    this.fetchCurrentTripEvents(this.$route.params.id)
+    db.get(this.$route.params.id)
+      .then((result) => {
+        this.trip = result
+      })
   },
   data () {
     return {
       expand: false,
+      trip: null,
       newEvent: {
         date: '',
         time: '',
@@ -90,25 +89,31 @@ export default {
         note: '',
         currency: 'KRW',
         price: 0,
-        tripId: this.$route.params.id
+        done: false
       }
     }
   },
-  computed: {
-    ...mapGetters(['currentTrip']),
-    currentTripEvents () {
-      return this.$store.getters.currentTripEvents(this.$route.params.id)
-    }
-  },
   methods: {
-    ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents', 'createEvent']),
     async onSubmit () {
-      const event = Object.assign({}, this.newEvent)
-      console.log(event)
-      debugger
-      await this.createEvent(event)
-      await this.fetchCurrentTripEvents()
-      this.expand = false
+      const newEvent = Object.assign({ _id: shortId.generate() }, this.newEvent)
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          doc.events = doc.events || []
+          doc.events.push(newEvent)
+          return db.put(doc)
+        })
+        .then(_ => db.get(id))
+        .then((doc) => {
+          this.trip = doc
+          this.expand = false
+          this.newEvent = newEvent
+          this.newEvent.id = ''
+          this.newEvent.place = 0
+          this.newEvent.price = 0
+          this.newEvent.note = ''
+          this.newEvent.do = ''
+        })
     },
     onNewEventChanged ({ property, value }) {
       this.$set(this.newEvent, property, value)
@@ -147,6 +152,7 @@ export default {
 .trip-body {
   flex: 1;
   overflow: auto;
+  padding: .5rem;
 }
 
 .day-list {
@@ -174,44 +180,6 @@ export default {
   padding-left: .5rem;
 }
 
-.event-list {
-  padding: 0;
-  margin: 0;
-  padding: 0.5rem;
-}
-
-.event {
-  padding: 1rem;
-  border: 1px solid black;
-  margin-bottom: 1rem;
-}
-
-.event-card {
-  display: flex;
-  justify-content: space-between;
-}
-
-.event-icon {
-  margin-right: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
-}
-
-.event-body {
-  flex: 1;
-}
-
-.event-action {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
-}
-
 .event-button {
   position: fixed;
   width: 60px;
@@ -234,6 +202,7 @@ export default {
   overflow-y: auto;
   z-index: 1000;
   background-color: #fff;
+  border: none;
 }
 
 .event-button .opener {
@@ -245,8 +214,8 @@ export default {
 
 .event-button .closer {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 13px;
+  right: 13px;
 }
 
 .event-type-list {
