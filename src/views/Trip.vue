@@ -51,7 +51,7 @@
         </form>
       </div>
       <div class="opener" v-else @click="expand = true">
-        추가
+        <img src="@/assets/icons/edit-2.svg" alt="추가">
       </div>
     </div>
   </div>
@@ -184,12 +184,12 @@ export default {
   position: fixed;
   width: 60px;
   height: 60px;
-  border: 1px solid black;
   border-radius: 100%;
   overflow: hidden;
   bottom: 10px;
   right: 10px;
-  transition: all 0.1s ease-in-out;
+  transition-duration: 0.1s;
+  transition-property: width, height;
 }
 
 .event-button.expand {
@@ -210,6 +210,8 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
+  color: #fff;
+  background-color: #0032aa;
 }
 
 .event-button .closer {
@@ -231,7 +233,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid #0032aa;
   padding: .5rem;
   width: 100px;
   height: 30px;

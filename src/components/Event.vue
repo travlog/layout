@@ -13,9 +13,8 @@
       </div>
       <div style="flex: 0;">{{ event.price }} {{ event.currency }}</div>
     </div>
-    <div class="meta" v-if="expand">
+    <div class="meta" v-show="expand">
       <div class="meta-note">{{ event.note }}</div>
-
     </div>
   </div>
 </template>
