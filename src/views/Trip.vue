@@ -1,20 +1,12 @@
 <template>
   <div class="trip">
-    <div class="trip-header" v-if="currentTrip">
-      <div class="trip-title">{{ currentTrip.name }}</div>
-      <div class="trip-range">{{ currentTrip.departure }} - {{ currentTrip.arrived }}</div>
+    <div class="trip-header" v-if="trip">
+      <div class="trip-title">{{ trip.name }}</div>
+      <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
     </div>
     <hr>
-    <div class="trip-body">
-      <div v-if="currentTripEvents">
-        => {{currentTripEvents}}
-        <!-- <div v-for="event in currentTripEvents" :key="event.id">
-          {{ event }}
-        </div> -->
-      </div>
-      <div v-else>
-        이벤트가 없음
-      </div>
+    <div class="trip-body" v-if="trip && trip.events">
+      {{ trip.events }}
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
@@ -53,7 +45,7 @@
             <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <input type="submit">
+            <input type="submit" class="button" value="만들기">
           </div>
         </form>
       </div>
@@ -65,20 +57,24 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 import BaseInput from '@/components/BaseInput.vue'
+import { db } from '@/services'
+import shortId from 'shortid'
 
 export default {
   components: {
     BaseInput
   },
   created () {
-    this.fetchCurrentTrip(this.$route.params.id)
-    this.fetchCurrentTripEvents(this.$route.params.id)
+    db.get(this.$route.params.id)
+      .then((result) => {
+        this.trip = result
+      })
   },
   data () {
     return {
       expand: false,
+      trip: null,
       newEvent: {
         date: '',
         time: '',
@@ -90,24 +86,25 @@ export default {
         note: '',
         currency: 'KRW',
         price: 0,
-        tripId: this.$route.params.id
+        done: false
       }
     }
   },
-  computed: {
-    ...mapGetters(['currentTrip']),
-    currentTripEvents () {
-      return this.$store.getters.currentTripEvents(this.$route.params.id)
-    }
-  },
   methods: {
-    ...mapActions(['fetchCurrentTrip', 'fetchCurrentTripEvents', 'createEvent']),
     async onSubmit () {
-      const event = Object.assign({}, this.newEvent)
+      const newEvent = Object.assign({ _id: shortId.generate() }, this.newEvent)
       console.log(event)
-      debugger
-      await this.createEvent(event)
-      await this.fetchCurrentTripEvents()
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          doc.events = doc.events || []
+          doc.events.push(newEvent)
+          return db.put(doc)
+        })
+        .then(_ => db.get(id))
+        .then((doc) => {
+          this.trip = doc
+        })
       this.expand = false
     },
     onNewEventChanged ({ property, value }) {

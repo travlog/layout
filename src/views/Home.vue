@@ -10,42 +10,14 @@
     <div class="trip-listing">
       <div class="trip-title">여행중</div>
       <div
-        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
+        @click="$router.push({ name: 'trips-id', params: { id: trip._id } })"
         class="trip-item"
-        v-for="trip in inTrips"
+        v-for="trip in trips"
         :key="trip.id"
       >
         <h1 class="trip-item-title">{{ trip.name }}</h1>
         <div class="trip-item-meta">
-          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
-        </div>
-      </div>
-    </div>
-    <div class="trip-listing">
-      <div class="trip-title">미래</div>
-      <div
-        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
-        class="trip-item"
-        v-for="trip in futureTrips"
-        :key="trip.id"
-      >
-        <h1 class="trip-item-title">{{ trip.name }}</h1>
-        <div class="trip-item-meta">
-          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
-        </div>
-      </div>
-    </div>
-    <div class="trip-listing">
-      <div class="trip-title">과거</div>
-      <div
-        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
-        class="trip-item"
-        v-for="trip in pastTrips"
-        :key="trip.id"
-      >
-        <h1 class="trip-item-title">{{ trip.name }}</h1>
-        <div class="trip-item-meta">
-          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
+          {{ trip.departure }} 부터 {{ trip.arrived }} 까지 || {{ trip.events.length }} events
         </div>
       </div>
     </div>
@@ -53,11 +25,18 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { db } from '@/services'
+
 export default {
   name: 'home',
-  computed: {
-    ...mapGetters(['inTrips', 'pastTrips', 'futureTrips'])
+  data () {
+    return {
+      trips: []
+    }
+  },
+  async created () {
+    const docs = await db.allDocs({ include_docs: true, attachments: true })
+    this.trips = docs.rows.map(r => r.doc)
   }
 }
 </script>
