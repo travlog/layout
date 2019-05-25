@@ -14,6 +14,9 @@
 <script>
 export default {
   props: {
+    property: {
+      type: String
+    },
     label: {
       type: String,
       default: () => ''
@@ -29,6 +32,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: () => false
+    }
+  },
+  watch: {
+    value (newVal) {
+      this.$emit('changed', { property: this.property, value: newVal })
     }
   },
   data () {

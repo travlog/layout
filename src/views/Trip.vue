@@ -61,20 +61,6 @@
 </template>
 
 <script>
-const events = [
-  { id: 1, type: 'flight', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
-  { id: 2, type: 'hotel', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
-  { id: 2, type: 'restaurant', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' }
-]
-
-console.log(events)
-
 export default {
   data () {
     return {

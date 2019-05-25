@@ -58,6 +58,9 @@ export default {
       prevHeight: 0
     }
   },
+  async created () {
+    this.initializeStorage()
+  },
   methods: {
     reload () {
       window.location.reload()
@@ -76,6 +79,17 @@ export default {
     },
     afterEnter (element) {
       element.style.height = 'auto'
+    },
+    async initializeStorage () {
+      const trips = await this.$lf.getItem('trips')
+      const events = await this.$lf.getItem('events')
+
+      if (!trips) {
+        await this.$lf.setItem('trips', [])
+      }
+      if (!events) {
+        await this.$lf.setItem('events', [])
+      }
     }
   }
 }

@@ -12,12 +12,14 @@
     </div>
     <div>
       <div
-        @click="$router.push({ name: 'trips-id', params: { id: 1 } })"
+        @click="$router.push({ name: 'trips-id', params: { id: trip.id } })"
         class="trip-item"
+        v-for="trip in trips"
+        :key="trip.id"
       >
-        <h1 class="trip-item-title">MY TRIP</h1>
+        <h1 class="trip-item-title">{{ trip.name }}</h1>
         <div class="trip-item-meta">
-          지역, 시작 - :: 지역, 종료 - :;
+          {{ trip.departure }} 부터 {{ trip.arrived }} 까지
         </div>
       </div>
     </div>
@@ -26,7 +28,18 @@
 
 <script>
 export default {
-  name: 'home'
+  name: 'home',
+  data () {
+    return {
+      trips: []
+    }
+  },
+  created () {
+    this.$lf.getItem('trips')
+      .then(result => {
+        this.trips = result
+      })
+  }
 }
 </script>
 
@@ -46,7 +59,6 @@ export default {
 .trip-title {
   padding-left: .5rem;
   font-size: 1.2rem;
-  margin-bottom: 1rem;
 }
 
 .trip-item {

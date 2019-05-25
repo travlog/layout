@@ -3,12 +3,12 @@
     <form @submit.prevent="onSubmit" class="new-trip-form">
       <div style="flex: 1;">
         <div class="form-group">
-          <base-input label="여행 이름" default-value="" type="text" />
+          <base-input label="여행 이름" property="name" :default-value="name" type="text" @changed="onChanged" />
         </div>
 
         <div class="form-group">
-          <base-input label="떠나는날" type="date" :default-value="departure" />&nbsp;
-          <base-input label="돌아오는날" type="date" :default-value="arrived" />
+          <base-input label="떠나는날" type="date" property="departure" :default-value="departure" @changed="onChanged" />&nbsp;
+          <base-input label="돌아오는날" type="date" property="arrived" :default-value="arrived" @changed="onChanged" />
         </div>
       </div>
 
@@ -21,7 +21,8 @@
 
 <script>
 import BaseInput from '@/components/BaseInput.vue'
-import { format } from 'date-fns'
+import { format, isAfter, isBefore } from 'date-fns'
+import shortId from 'shortid'
 
 export default {
   name: 'new-trip',
@@ -30,13 +31,50 @@ export default {
   },
   data () {
     return {
-      cities: [],
+      name: '',
       departure: format(new Date(), 'YYYY-MM-DD'),
       arrived: format(new Date(), 'YYYY-MM-DD')
     }
   },
+  computed: {
+    tripName () {
+      if (this.name) {
+        return this.name
+      }
+      return `${this.departure}에서 ${this.arrived}까지 여행`
+    }
+  },
+  watch: {
+    departure (newDepartue) {
+      if (isAfter(newDepartue, this.arrived)) {
+        this.$set(this, 'arrived', newDepartue)
+      }
+    },
+    arrived (newArrived) {
+      if (isBefore(newArrived, this.departure)) {
+        this.$set(this, 'departure', newArrived)
+      }
+    }
+  },
+  mounted () {
+  },
   methods: {
-    onSubmit () {
+    onChanged ({ property, value }) {
+      this.$set(this, property, value)
+    },
+    async onSubmit () {
+      const trips = await this.$lf.getItem('trips')
+      const newTrip = {
+        id: shortId.generate(),
+        name: this.tripName,
+        departure: this.departure,
+        arrived: this.arrived,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      trips.push(newTrip)
+      await this.$lf.setItem('trips', trips)
+      this.$router.push({ name: 'home' })
     }
   }
 }
