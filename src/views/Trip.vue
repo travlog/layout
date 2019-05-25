@@ -19,15 +19,11 @@
             <base-input label="날짜" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
+            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />&nbsp;
             <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
+            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />&nbsp;
             <base-input label="도시" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
@@ -37,13 +33,11 @@
             <base-input label="제목" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
-            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
-          </div>
-          <div class="form-group">
             <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />&nbsp;
+            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
             <input type="submit" class="button" value="만들기">
@@ -51,7 +45,7 @@
         </form>
       </div>
       <div class="opener" v-else @click="expand = true">
-        추가
+        <img src="@/assets/icons/edit-2.svg" alt="추가">
       </div>
     </div>
   </div>
@@ -72,6 +66,13 @@ export default {
     db.get(this.$route.params.id)
       .then((result) => {
         this.trip = result
+        if (this.trip.events && this.trip.events.length > 0) {
+          const last = this.trip.events[this.trip.events.length - 1]
+          this.newEvent.country = last.country
+          this.newEvent.city = last.city
+          this.newEvent.timezone = last.timezone
+          this.newEvent.currency = last.currency
+        }
       })
   },
   data () {
@@ -109,7 +110,7 @@ export default {
           this.expand = false
           this.newEvent = newEvent
           this.newEvent.id = ''
-          this.newEvent.place = 0
+          this.newEvent.place = ''
           this.newEvent.price = 0
           this.newEvent.note = ''
           this.newEvent.do = ''
@@ -153,6 +154,7 @@ export default {
   flex: 1;
   overflow: auto;
   padding: .5rem;
+  margin-bottom: 3rem;
 }
 
 .day-list {
@@ -184,12 +186,12 @@ export default {
   position: fixed;
   width: 60px;
   height: 60px;
-  border: 1px solid black;
   border-radius: 100%;
   overflow: hidden;
   bottom: 10px;
   right: 10px;
-  transition: all 0.1s ease-in-out;
+  transition-duration: 0.1s;
+  transition-property: width, height;
 }
 
 .event-button.expand {
@@ -210,6 +212,8 @@ export default {
   height: 100%;
   justify-content: center;
   align-items: center;
+  color: #fff;
+  background-color: #0032aa;
 }
 
 .event-button .closer {
@@ -231,7 +235,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
+  border: 1px solid #0032aa;
   padding: .5rem;
   width: 100px;
   height: 30px;

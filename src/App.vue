@@ -136,8 +136,10 @@ html, body, #app {
   position: fixed;
   top: 0;
   left: 0;
-  width: 200px;
-  transform: translateX(-200px);
+  min-width: 50%;
+  width: 300px;
+  max-width: 80%;
+  transform: translateX(-300px);
   z-index: 1000;
   height: 100vh;
   background-color: #fff;

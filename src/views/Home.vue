@@ -4,12 +4,12 @@
       오늘<br>
       {{ (new Date()).toLocaleDateString() }}
     </div>
-    <div class="new-trip-button">
-      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 만들기</button>
-    </div>
     <div class="trip-listing">
       <div class="trip-title">여행중</div>
       <trip v-for="trip in trips" :key="trip._id" :trip="trip" :route="{ name: 'trips-id', params: { id: trip._id } }" />
+    </div>
+    <div class="new-trip-button">
+      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 만들기</button>
     </div>
   </div>
 </template>
@@ -36,12 +36,19 @@ export default {
 </script>
 
 <style>
+.home {
+  height: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+
 .home .today {
   padding-top: 1rem;
   padding-bottom: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 0;
   text-align: center;
   font-size: 1.2rem;
   border-bottom: 1px solid black;
@@ -71,6 +78,7 @@ export default {
 }
 
 .trip-listing {
+  flex: 1;
   margin-bottom: 1rem;
 }
 </style>
