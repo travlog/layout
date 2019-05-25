@@ -19,7 +19,7 @@
       </div>
     </form>
 
-    <button @click="$router.back()">Back</button>
+    <button @click="$router.push({ name: 'home' })">처음으로</button>
   </div>
 </template>
 

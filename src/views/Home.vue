@@ -5,28 +5,33 @@
       {{ (new Date()).toLocaleDateString() }}
     </div>
     <div class="new-trip-button">
-      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 계획하기</button>
+      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 만들기</button>
     </div>
-    <div>
-      <div class="trip-title">다가오는 일정</div>
-    </div>
-    <div>
-      <div
-        @click="$router.push({ name: 'trips-id', params: { id: 1 } })"
-        class="trip-item"
-      >
-        <h1 class="trip-item-title">MY TRIP</h1>
-        <div class="trip-item-meta">
-          지역, 시작 - :: 지역, 종료 - :;
-        </div>
-      </div>
+    <div class="trip-listing">
+      <div class="trip-title">여행중</div>
+      <trip v-for="trip in trips" :key="trip._id" :trip="trip" :route="{ name: 'trips-id', params: { id: trip._id } }" />
     </div>
   </div>
 </template>
 
 <script>
+import Trip from '@/components/Trip.vue'
+import { db } from '@/services'
+
 export default {
-  name: 'home'
+  name: 'home',
+  components: {
+    Trip
+  },
+  data () {
+    return {
+      trips: []
+    }
+  },
+  async created () {
+    const docs = await db.allDocs({ include_docs: true, attachments: true })
+    this.trips = docs.rows.map(r => r.doc)
+  }
 }
 </script>
 
@@ -46,7 +51,6 @@ export default {
 .trip-title {
   padding-left: .5rem;
   font-size: 1.2rem;
-  margin-bottom: 1rem;
 }
 
 .trip-item {
@@ -60,12 +64,13 @@ export default {
   margin: .5rem 0;
 }
 
-.trip-item-meta {
-
-}
 .new-trip-button {
   padding-left: .5rem;
   padding-right: .5rem;
+  margin-bottom: 1rem;
+}
+
+.trip-listing {
   margin-bottom: 1rem;
 }
 </style>

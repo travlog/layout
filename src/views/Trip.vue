@@ -1,57 +1,54 @@
 <template>
   <div class="trip">
-    <div class="trip-header">
-      <ul class="day-list">
-        <li class="day">1일차</li>
-        <li class="day">2일차</li>
-        <li class="day">3일차</li>
-        <li class="day">4일차</li>
-        <li class="day">5일차</li>
-        <li class="day">6일차</li>
-        <li class="day">7일차</li>
-      </ul>
+    <div class="trip-header" v-if="trip">
+      <div class="trip-title">{{ trip.name }}</div>
+      <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
     </div>
-    <div class="trip-body">
-      <div class="event-header">
-        <h2 class="event-title">1일차</h2>
-      </div>
-      <ul class="event-list">
-        <li class="event">
-          <div class="event-card">
-            <div class="event-icon">아이콘</div>
-            <div class="event-body">
-              <div>TITLE</div>
-              <div>SUBTITLE</div>
-            </div>
-            <div class="event-action">$123</div>
-          </div>
-        </li>
-        <li class="event">
-          <div class="event-card">
-            <div class="event-icon">아이콘</div>
-            <div class="event-body">
-              <div>TITLE</div>
-              <div>SUBTITLE</div>
-            </div>
-            <div class="event-action">$123</div>
-          </div>
-        </li>
-      </ul>
+    <hr>
+    <div class="trip-body" v-if="trip && trip.events">
+      <event v-for="event in trip.events" :key="event._id" :event="event" />
     </div>
     <div class="event-button" :class="{ expand: expand }">
-      <div v-if="expand" style="position: relative;">
-        <h4 style="text-align: center; margin: 0; padding: 0; margin-bottom: 1rem;"> 새 이벤트 선택기</h4>
-        <ul class="event-type-list">
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'flight' } })">비행기</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'hotel' } })">호텔</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'taxi' } })">택시</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'train' } })">기차</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'bus' } })">버스</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'restaurant' } })">음식점</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'activity' } })">액티비티</li>
-          <li class="event-type-item" @click="$router.push({ name: 'new-event', query: { trip: 1, eventtype: 'note' } })">기타(노트)</li>
-        </ul>
-        <button class="closer" @click="expand = false">닫기</button>
+      <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
+        <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
+          새 이벤트
+          <img src="@/assets/icons/x.svg" alt="closer" class="closer" @click.prevent="expand = false">
+        </h4>
+        <form @submit.prevent="onSubmit" style="flex: 1;">
+          <div class="form-group">
+            <base-input label="날짜" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="도시" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="장소" property="place" :default-value="newEvent.place" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="제목" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
+          </div>
+          <div class="form-group">
+            <input type="submit" class="button" value="만들기">
+          </div>
+        </form>
       </div>
       <div class="opener" v-else @click="expand = true">
         추가
@@ -61,24 +58,65 @@
 </template>
 
 <script>
-const events = [
-  { id: 1, type: 'flight', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
-  { id: 2, type: 'hotel', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '', tz: '' },
-  { id: 2, type: 'restaurant', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' },
-  { id: 2, type: 'place', startDate: +(new Date()), endDate: +(new Date()), title: '', note: '어쩌구 저쩌구', tz: '' }
-]
-
-console.log(events)
+import BaseInput from '@/components/BaseInput.vue'
+import Event from '@/components/Event.vue'
+import { db } from '@/services'
+import shortId from 'shortid'
 
 export default {
+  components: {
+    BaseInput,
+    Event
+  },
+  created () {
+    db.get(this.$route.params.id)
+      .then((result) => {
+        this.trip = result
+      })
+  },
   data () {
     return {
-      expand: false
+      expand: false,
+      trip: null,
+      newEvent: {
+        date: '',
+        time: '',
+        timezone: '',
+        country: '',
+        city: '',
+        place: '',
+        do: '',
+        note: '',
+        currency: 'KRW',
+        price: 0,
+        done: false
+      }
+    }
+  },
+  methods: {
+    async onSubmit () {
+      const newEvent = Object.assign({ _id: shortId.generate() }, this.newEvent)
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          doc.events = doc.events || []
+          doc.events.push(newEvent)
+          return db.put(doc)
+        })
+        .then(_ => db.get(id))
+        .then((doc) => {
+          this.trip = doc
+          this.expand = false
+          this.newEvent = newEvent
+          this.newEvent.id = ''
+          this.newEvent.place = 0
+          this.newEvent.price = 0
+          this.newEvent.note = ''
+          this.newEvent.do = ''
+        })
+    },
+    onNewEventChanged ({ property, value }) {
+      this.$set(this.newEvent, property, value)
     }
   }
 }
@@ -99,11 +137,22 @@ export default {
   height: 60px;
   min-height: 60px;
   overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: .5rem;
 }
 
 .trip-body {
   flex: 1;
   overflow: auto;
+  padding: .5rem;
 }
 
 .day-list {
@@ -131,44 +180,6 @@ export default {
   padding-left: .5rem;
 }
 
-.event-list {
-  padding: 0;
-  margin: 0;
-  padding: 0.5rem;
-}
-
-.event {
-  padding: 1rem;
-  border: 1px solid black;
-  margin-bottom: 1rem;
-}
-
-.event-card {
-  display: flex;
-  justify-content: space-between;
-}
-
-.event-icon {
-  margin-right: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
-}
-
-.event-body {
-  flex: 1;
-}
-
-.event-action {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 0;
-  min-width: 50px;
-}
-
 .event-button {
   position: fixed;
   width: 60px;
@@ -184,11 +195,14 @@ export default {
 .event-button.expand {
   position: fixed;
   width: 100%;
-  height: 200px;
+  height: 100%;
   bottom: 0;
   right: 0;
   border-radius: 0;
-  overflow-y: hidden;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: #fff;
+  border: none;
 }
 
 .event-button .opener {
@@ -200,8 +214,8 @@ export default {
 
 .event-button .closer {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 13px;
+  right: 13px;
 }
 
 .event-type-list {
@@ -223,5 +237,10 @@ export default {
   height: 30px;
   margin-right: 1rem;
   margin-bottom: 1rem;
+}
+
+.new-event-form-wrapper {
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -59,17 +59,12 @@ export default {
     }
   },
   methods: {
-    reload () {
-      window.location.reload()
-    },
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
     },
     enter (element) {
       const { height } = getComputedStyle(element)
-
       element.style.height = this.prevHeight
-
       setTimeout(() => {
         element.style.height = height
       })

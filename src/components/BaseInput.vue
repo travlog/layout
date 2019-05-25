@@ -6,6 +6,7 @@
       v-model="value"
       :type="type"
       :autofocus="autofocus"
+      autocomplete="off"
     >
   </div>
 </template>
@@ -13,12 +14,15 @@
 <script>
 export default {
   props: {
+    property: {
+      type: String
+    },
     label: {
       type: String,
       default: () => ''
     },
     defaultValue: {
-      type: String,
+      type: [String, Date, Number],
       default: () => ''
     },
     type: {
@@ -28,6 +32,11 @@ export default {
     autofocus: {
       type: Boolean,
       default: () => false
+    }
+  },
+  watch: {
+    value (newVal) {
+      this.$emit('changed', { property: this.property, value: newVal })
     }
   },
   data () {
@@ -62,6 +71,7 @@ export default {
   border-radius: 3px;
   padding-left: .5rem;
   padding-right: .5rem;
+  width: 100%;
 }
 
 .base-input:focus {
