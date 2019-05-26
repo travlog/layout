@@ -1,11 +1,12 @@
 <template>
   <div class="trip">
     <div class="trip-header" v-if="trip">
-      <div class="trip-title">{{ trip.name }}</div>
+      <div class="trip-title">{{ trip.name }} <button @click="removeTrip">삭제</button></div>
       <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
     </div>
     <hr>
     <div class="trip-body" v-if="trip && trip.events">
+
       <event v-for="event in trip.events" :key="event._id" :event="event" />
     </div>
     <div class="event-button" :class="{ expand: expand }">
@@ -16,31 +17,31 @@
         </h4>
         <form @submit.prevent="onSubmit" style="flex: 1;">
           <div class="form-group">
-            <base-input label="날짜" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
+            <base-input label="날짜📆" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="시간" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />&nbsp;
-            <base-input label="시간대" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
+            <base-input label="시간⌚" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />&nbsp;
+            <base-input label="시간대🕒" property="timezone" :default-value="newEvent.timezone" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="나라" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />&nbsp;
-            <base-input label="도시" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
+            <base-input label="나라🌎" property="country" :default-value="newEvent.country" type="text" @changed="onNewEventChanged" />&nbsp;
+            <base-input label="도시🏙️" property="city" :default-value="newEvent.city" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="장소" property="place" :default-value="newEvent.place" type="text" @changed="onNewEventChanged" />
+            <base-input label="장소🏛️" property="place" :default-value="newEvent.place" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="제목" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
+            <base-input label="제목🚀" property="do" :default-value="newEvent.do" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="노트" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
+            <base-input label="노트📝" property="note" :default-value="newEvent.note" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <base-input label="비용" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />&nbsp;
-            <base-input label="화폐" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
+            <base-input label="비용💰" property="price" :default-value="newEvent.price" type="number" @changed="onNewEventChanged" />&nbsp;
+            <base-input label="화폐💱" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <input type="submit" class="button" value="만들기">
+            <input type="submit" class="button" value="만들기✈️">
           </div>
         </form>
       </div>
@@ -66,8 +67,14 @@ export default {
     db.get(this.$route.params.id)
       .then((result) => {
         this.trip = result
+        this.newEvent.country = this.trip.country
+        this.newEvent.city = this.trip.city
+        this.newEvent.timezone = this.trip.timezone
+        this.newEvent.currency = this.trip.currency
+        this.newEvent.date = this.trip.departure
         if (this.trip.events && this.trip.events.length > 0) {
           const last = this.trip.events[this.trip.events.length - 1]
+          this.newEvent.date = last.date
           this.newEvent.country = last.country
           this.newEvent.city = last.city
           this.newEvent.timezone = last.timezone
@@ -118,6 +125,17 @@ export default {
     },
     onNewEventChanged ({ property, value }) {
       this.$set(this.newEvent, property, value)
+    },
+    removeTrip () {
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          doc._deleted = true
+          return db.put(doc)
+        })
+        .then(_ => {
+          this.$router.replace({ name: 'home' })
+        })
     }
   }
 }
