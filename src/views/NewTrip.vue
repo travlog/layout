@@ -2,6 +2,7 @@
   <div class="new-trip">
     <form @submit.prevent="onSubmit" class="new-trip-form">
       <div style="flex: 1;">
+        <strong>기본정보</strong>
         <div class="form-group">
           <base-input label="여행 이름" property="name" :default-value="name" type="text" @changed="onChanged" />
         </div>
@@ -10,8 +11,17 @@
           <base-input label="떠나는날" type="date" property="departure" :default-value="departure" @changed="onChanged" />&nbsp;
           <base-input label="돌아오는날" type="date" property="arrived" :default-value="arrived" @changed="onChanged" />
         </div>
+        <hr>
+        <div>
+          <strong>추가정보</strong>
+        </div>
+        <div class="form-group">
+          <base-input label="나라" type="text" property="country" :default-value="country" @changed="onChanged" />
+        </div>
+        <div class="form-group">
+          <base-input label="기준화폐" type="text" property="currency" :default-value="currency" @changed="onChanged" />
+        </div>
       </div>
-
       <div class="form-group">
         <input type="submit" class="button" value="만들기">
       </div>
@@ -34,7 +44,9 @@ export default {
     return {
       name: '',
       departure: format(new Date(), 'YYYY-MM-DD'),
-      arrived: format(new Date(), 'YYYY-MM-DD')
+      arrived: format(new Date(), 'YYYY-MM-DD'),
+      currency: 'USD',
+      country: ''
     }
   },
   computed: {
@@ -67,6 +79,8 @@ export default {
         name: this.tripName,
         departure: this.departure,
         arrived: this.arrived,
+        country: this.country,
+        currency: this.currency,
         events: []
       }
       db.put(newTrip)
