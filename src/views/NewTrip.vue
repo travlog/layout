@@ -6,12 +6,12 @@
           <strong>기본정보</strong>
         </div>
         <div class="form-group">
-          <base-input label="여행 이름" property="name" :default-value="name" type="text" @changed="onChanged" />
+          <base-input label="여행 이름🚀" property="name" :default-value="name" type="text" @changed="onChanged" />
         </div>
 
         <div class="form-group">
-          <base-input label="떠나는날" type="date" property="departure" :default-value="departure" @changed="onChanged" />&nbsp;
-          <base-input label="돌아오는날" type="date" property="arrived" :default-value="arrived" @changed="onChanged" />
+          <base-input label="떠나는날🛫" type="date" property="departure" :default-value="departure" @changed="onChanged" />&nbsp;
+          <base-input label="돌아오는날🛬" type="date" property="arrived" :default-value="arrived" @changed="onChanged" />
         </div>
 
         <hr>
@@ -20,14 +20,14 @@
           <strong>추가정보</strong>
         </div>
         <div class="form-group">
-          <base-input label="기준나라" type="text" property="country" :default-value="country" @changed="onChanged" />&nbsp;
-          <base-input label="기준도시" type="text" property="city" :default-value="city" @changed="onChanged" />
+          <base-input label="기준나라🌎" type="text" property="country" :default-value="country" @changed="onChanged" />&nbsp;
+          <base-input label="기준도시🏙️" type="text" property="city" :default-value="city" @changed="onChanged" />
         </div>
         <div class="form-group">
-          <base-input label="기준 시간대" type="text" property="timezone" :default-value="timezone" @changed="onChanged" />
+          <base-input label="기준 시간대🕒" type="text" property="timezone" :default-value="timezone" @changed="onChanged" />
         </div>
         <div class="form-group">
-          <base-input label="기준화폐" type="text" property="currency" :default-value="currency" @changed="onChanged" />
+          <base-input label="기준화폐💱" type="text" property="currency" :default-value="currency" @changed="onChanged" />
         </div>
       </div>
       <div class="form-group">
