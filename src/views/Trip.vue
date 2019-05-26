@@ -1,7 +1,7 @@
 <template>
   <div class="trip">
     <div class="trip-header" v-if="trip">
-      <div class="trip-title">{{ trip.name }}</div>
+      <div class="trip-title">{{ trip.name }} <button @click="removeTrip">삭제</button></div>
       <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
     </div>
     <hr>
@@ -125,6 +125,17 @@ export default {
     },
     onNewEventChanged ({ property, value }) {
       this.$set(this.newEvent, property, value)
+    },
+    removeTrip () {
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          doc._deleted = true
+          return db.put(doc)
+        })
+        .then(_ => {
+          this.$router.replace({ name: 'home' })
+        })
     }
   }
 }
