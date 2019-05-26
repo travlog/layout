@@ -35,6 +35,9 @@ export default {
     }
   },
   watch: {
+    defaultValue (newVal) {
+      this.value = newVal
+    },
     value (newVal) {
       this.$emit('changed', { property: this.property, value: newVal })
     }
