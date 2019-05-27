@@ -1,17 +1,22 @@
 <template>
   <div class="trip">
-    <div class="trip-header" v-if="trip">
-      <div class="trip-title">{{ trip.name }} <button @click="removeTrip">삭제</button></div>
+    <div class="trip-header" v-if="trip" @click="tripExpand = !tripExpand">
+      <div class="trip-title">{{ trip.name }}</div>
       <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
+      <div v-if="tripExpand">
+        <button @click="removeTrip">삭제</button>
+      </div>
     </div>
     <hr>
     <div class="trip-body" v-if="trip && trip.events">
-
-      <event v-for="event in trip.events" :key="event._id" :event="event" />
+      <event v-for="event in trip.events" :key="event._id" :event="event">
+        <button @click.stop="editEvent(event._id)">수정</button>
+        <button @click.stop="removeEvent(event._id)">삭제</button>
+      </event>
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
-        <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1rem; position: sticky; top: 0; background-color: #fff; flex: 0;">
+        <h4 style="text-align: center; margin: 0; padding: 0; padding-top: 1rem; padding-bottom: 1.5rem; position: sticky; top: 0; background-color: #fff; flex: 0; border-bottom: 1px solid rgba(33, 33, 33, 0.2)">
           새 이벤트
           <img src="@/assets/icons/x.svg" alt="closer" class="closer" @click.prevent="expand = false">
         </h4>
@@ -84,6 +89,7 @@ export default {
   },
   data () {
     return {
+      tripExpand: false,
       expand: false,
       trip: null,
       newEvent: {
@@ -102,6 +108,26 @@ export default {
     }
   },
   methods: {
+    editEvent (_id) {
+      console.log('editEvent')
+    },
+    removeEvent (eventId) {
+      const { id } = this.$route.params
+      db.get(id)
+        .then((doc) => {
+          console.log(doc)
+          const events = doc.events || []
+          const eventIndex = events.findIndex(e => e._id === eventId)
+          console.log('eventIndex => ', eventIndex)
+          events.splice(eventIndex, 1)
+          return db.put(doc)
+        })
+        .then(_ => db.get(id))
+        .then((doc) => { this.trip = doc })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
     async onSubmit () {
       const newEvent = Object.assign({ _id: shortId.generate() }, this.newEvent)
       const { id } = this.$route.params
@@ -155,6 +181,7 @@ export default {
   width: 100%;
   height: 60px;
   min-height: 60px;
+  max-height: 100px;
   overflow-x: auto;
   display: flex;
   flex-direction: column;
@@ -168,6 +195,9 @@ export default {
   margin-bottom: .5rem;
 }
 
+.trip-range {
+  margin-bottom: .5rem;
+}
 .trip-body {
   flex: 1;
   overflow: auto;
@@ -207,7 +237,8 @@ export default {
   border-radius: 100%;
   overflow: hidden;
   bottom: 10px;
-  right: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   transition-duration: 0.1s;
   transition-property: width, height;
 }
