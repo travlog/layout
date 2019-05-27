@@ -8,11 +8,17 @@
       </div>
     </div>
     <hr>
-    <div class="trip-body" v-if="trip && trip.events">
+    <div class="trip-body" v-if="hasEvents">
       <event v-for="event in trip.events" :key="event._id" :event="event">
         <button @click.stop="editEvent(event._id)">수정</button>
         <button @click.stop="removeEvent(event._id)">삭제</button>
       </event>
+    </div>
+    <div
+      v-else
+      style="font-size: 2rem; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; word-break: keep-all;"
+    >
+      첫번째 이벤트를 만들어보세요🎈
     </div>
     <div class="event-button" :class="{ expand: expand }">
       <div v-if="expand" style="position: relative;" class="new-event-form-wrapper">
@@ -46,7 +52,7 @@
             <base-input label="화폐💱" property="currency" :default-value="newEvent.currency" type="text" @changed="onNewEventChanged" />
           </div>
           <div class="form-group">
-            <input type="submit" class="button" value="만들기✈️">
+            <input type="submit" class="button" value="이벤트 만들기🎈">
           </div>
         </form>
       </div>
@@ -105,6 +111,11 @@ export default {
         price: 0,
         done: false
       }
+    }
+  },
+  computed: {
+    hasEvents () {
+      return this.trip && this.trip.events && this.trip.events.length > 0
     }
   },
   methods: {

@@ -5,10 +5,10 @@
       <trip v-for="trip in trips" :key="trip._id" :trip="trip" :route="{ name: 'trips-id', params: { id: trip._id } }" />
     </div>
     <div v-else class="trip-listing empty">
-      첫번째 여행을 만들어보세요✈️
-    </div>
+      첫번째 여행을 만들어보세요✈️️️️
+    </div>️️️
     <div class="new-trip-button">
-      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 만들기🎈</button>
+      <button class="button" @click="$router.push({ name: 'new-trip' })">새 여행 만들기✈️️️️️️</button>
     </div>
   </div>
 </template>

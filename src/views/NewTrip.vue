@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="form-group">
-        <input type="submit" class="button" value="만들기">
+        <input type="submit" class="button" value="새 여행 만들기✈️️️️️️">
       </div>
     </form>
   </div>
