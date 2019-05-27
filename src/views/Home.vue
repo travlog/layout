@@ -1,9 +1,5 @@
 <template>
   <div class="home">
-    <div class="today">
-      <div style="font-size: 1.4rem; font-weight: bold;">오늘</div>
-      {{ today }}
-    </div>
     <div v-if="tripExists" class="trip-listing">
       <div class="trip-title">여행 목록</div>
       <trip v-for="trip in trips" :key="trip._id" :trip="trip" :route="{ name: 'trips-id', params: { id: trip._id } }" />
@@ -20,8 +16,6 @@
 <script>
 import Trip from '@/components/Trip.vue'
 import { db } from '@/services'
-import { format } from 'date-fns'
-import koLocale from 'date-fns/locale/ko'
 
 export default {
   name: 'home',
@@ -36,9 +30,6 @@ export default {
   computed: {
     tripExists () {
       return this.trips && this.trips.length > 0
-    },
-    today () {
-      return format(new Date(), 'YYYY년 MM월 DD일 dddd', { locale: koLocale })
     }
   },
   async created () {
