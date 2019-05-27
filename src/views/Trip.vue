@@ -2,7 +2,7 @@
   <div class="trip">
     <div class="trip-header" v-if="trip" @click="tripExpand = !tripExpand">
       <div class="trip-title">{{ trip.name }}</div>
-      <div class="trip-range">{{ trip.departure }} - {{ trip.arrived }}</div>
+      <div class="trip-range">{{ tripDuration }}</div>
       <div v-if="tripExpand">
         <button @click="removeTrip">삭제</button>
       </div>
@@ -68,7 +68,7 @@ import BaseInput from '@/components/BaseInput.vue'
 import Event from '@/components/Event.vue'
 import { db } from '@/services'
 import shortId from 'shortid'
-
+import { getYear, getMonth, getDate } from 'date-fns'
 export default {
   components: {
     BaseInput,
@@ -116,6 +116,14 @@ export default {
   computed: {
     hasEvents () {
       return this.trip && this.trip.events && this.trip.events.length > 0
+    },
+    tripDuration () {
+      const year = getYear(this.trip.departure) === getYear(new Date()) ? '' : `${getYear(this.trip.departure)}년 `
+      const sameMonth = getMonth(this.trip.departure) === getMonth(this.trip.arrived)
+      const sameDate = getDate(this.trip.departure) === getDate(this.trip.arrived)
+      let durationString = `${year}${getMonth(this.trip.departure) + 1}월 ${getDate(this.trip.departure)}일`
+      durationString = sameDate ? `${durationString}` : `${sameMonth ? '' : `${getMonth(this.trip.departure) + 1}월`} ${getDate(this.trip.arrived)}일`
+      return durationString
     }
   },
   methods: {
@@ -250,8 +258,8 @@ export default {
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  transition-duration: 0.1s;
-  transition-property: width, height;
+  transition-duration: 0.2s;
+  transition-property: all;
 }
 
 .event-button.expand {
@@ -273,7 +281,7 @@ export default {
   justify-content: center;
   align-items: center;
   color: #fff;
-  background-color: #0032aa;
+  background-color: #5082ff;
 }
 
 .event-button .closer {
