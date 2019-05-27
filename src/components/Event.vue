@@ -11,16 +11,23 @@
         </div>
         <div>{{ event.place }}, {{ event.city }}</div>
       </div>
-      <div style="flex: 0;">{{ event.price }} {{ event.currency }}</div>
+      <div style="flex: 0; display: flex; align-items: center;">
+        {{ event.price | currencySymbol(event.currency) }}
+      </div>
     </div>
     <div class="meta" v-show="expand">
       <div class="meta-note">{{ event.note }}</div>
+      <div>
+        <slot />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import countryCurrencyMap from 'country-currency-map'
 import { format } from 'date-fns'
+console.log(countryCurrencyMap)
 // date: '',
 // time: '',
 // timezone: '',
@@ -47,6 +54,10 @@ export default {
   filters: {
     stripYear (value) {
       return format(value, 'MM/DD')
+    },
+    currencySymbol (value, currency) {
+      console.log('value => ', value)
+      return countryCurrencyMap.formatCurrency(value, currency)
     }
   }
 }
