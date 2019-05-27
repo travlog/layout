@@ -47,18 +47,39 @@
         </router-link>
       </ul>
     </div>
+    <div class="update-snackbar" v-if="updated">
+      <div>
+        새 업데이트가 있습니다.
+      </div>
+      <div>
+        <a href="#" @click.prevent="reload">재시작</a>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 export default {
+  mounted () {
+    document.addEventListener('swUpdated', this.showRefreshUI)
+  },
+  beforeDestroy () {
+    document.removeEventListener('swUpdated', this.showRefreshUI)
+  },
   data () {
     return {
       title: 'travlog',
       open: false,
-      prevHeight: 0
+      prevHeight: 0,
+      updated: false
     }
   },
   methods: {
+    showRefreshUI () {
+      this.updated = true
+    },
+    reload () {
+      window.location.reload()
+    },
     beforeLeave (element) {
       this.prevHeight = getComputedStyle(element).height
     },
@@ -227,5 +248,21 @@ html, body, #app {
 .fade-enter,
 .fade-leave-active {
   opacity: 0
+}
+.update-snackbar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: #fff;
+  font-size: 1.2rem;
+}
+.update-snackbar a {
+  color: #fff;
 }
 </style>
