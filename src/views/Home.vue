@@ -38,7 +38,7 @@ export default {
       return this.trips && this.trips.length > 0
     },
     today () {
-      return format(new Date(), 'YYYY/MM/DD dddd', { locale: koLocale })
+      return format(new Date(), 'YYYY년 MM월 DD일 dddd', { locale: koLocale })
     }
   },
   async created () {
@@ -94,5 +94,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 3rem;
+  padding: 1rem;
+  text-align: center;
 }
 </style>
