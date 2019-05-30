@@ -28,7 +28,15 @@
         </h4>
         <form @submit.prevent="onSubmit" style="flex: 1;">
           <div class="form-group">
-            <base-input label="날짜📆" property="date" :default-value="newEvent.date" type="date" @changed="onNewEventChanged" />
+            <base-input
+              label="날짜📆"
+              property="date"
+              :default-value="newEvent.date"
+              :min="trip.departure"
+              :max="trip.arrived"
+              type="date"
+              @changed="onNewEventChanged"
+            />
           </div>
           <div class="form-group">
             <base-input label="시간⌚" property="time" :default-value="newEvent.time" type="time" @changed="onNewEventChanged" />&nbsp;

@@ -6,6 +6,8 @@
       v-model="value"
       :type="type"
       :autofocus="autofocus"
+      :min="min"
+      :max="max"
       autocomplete="off"
     >
   </div>
@@ -32,6 +34,14 @@ export default {
     autofocus: {
       type: Boolean,
       default: () => false
+    },
+    min: {
+      type: [String, Number, Date],
+      default: () => ''
+    },
+    max: {
+      type: [String, Number, Date],
+      default: () => ''
     }
   },
   watch: {
